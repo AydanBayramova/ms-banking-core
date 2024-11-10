@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ms-identity
+  data:
+    mongodb:
+      uri: mongodb://mongo:mysecretpassword@localhost:27017/identity_db?authSource=admin
+
