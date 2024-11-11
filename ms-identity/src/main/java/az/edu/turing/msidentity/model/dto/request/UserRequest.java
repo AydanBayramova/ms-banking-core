@@ -15,11 +15,11 @@ import lombok.Builder;
 @Builder
 public class UserRequest {
 
-    @NotBlank
+    @NotBlank(message = "Username cannot be blank")
     private String username;
 
-    @Email
-    @NotBlank
+    @Email(message = "Wrong email format")
+    @NotBlank(message = "Email cannot be blank")
     private String email;
 
     private String firstName;

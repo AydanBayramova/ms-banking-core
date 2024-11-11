@@ -5,6 +5,7 @@ import az.edu.turing.msidentity.model.dto.request.UserRequest;
 import az.edu.turing.msidentity.model.dto.response.PageResponse;
 import az.edu.turing.msidentity.model.dto.response.UserResponse;
 import az.edu.turing.msidentity.service.inter.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -33,13 +34,13 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
         return userService.createUser(userRequest);
     }
 
     @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest userRequest, @PathVariable("userId") String userId) {
+    public ResponseEntity<UserResponse> updateUser(@Valid @RequestBody UserRequest userRequest, @PathVariable("userId") String userId) {
         return userService.updateUser(userId, userRequest);
     }
 
