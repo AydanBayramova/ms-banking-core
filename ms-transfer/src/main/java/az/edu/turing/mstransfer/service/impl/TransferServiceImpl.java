@@ -26,7 +26,7 @@ public class TransferServiceImpl implements TransferService {
     private final TransferMapper transferMapper;
 
     @Override
-    public void accountToAccountTransfer(TransferRequest request) throws AccountNotFoundException {
+    public TransferResponse accountToAccountTransfer(TransferRequest request) throws AccountNotFoundException {
 
         AccountEntity sender = accountRepository.findByAccountIdAndStatus(String.valueOf(request.getFromAccountId()), Status.ACTIVE)
                 .orElseThrow(() -> new AccountNotFoundException("No such Active account"));
@@ -42,6 +42,7 @@ public class TransferServiceImpl implements TransferService {
         receiver.setBalance(receiver.getBalance().add(request.getAmount()));
         accountRepository.save(receiver);
 
+        return null;
     }
 
     private void checkAmountAndBalance(BigDecimal balance, BigDecimal amountToTransfer) {
