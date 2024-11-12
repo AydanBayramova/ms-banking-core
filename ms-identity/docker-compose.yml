@@ -1,0 +1,30 @@
+services:
+  ms-identity:
+    build:
+      context: .
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@my_mongo:27017/${MONGO_DATABASE}?authSource=admin
+    depends_on:
+      - mongodb
+    networks:
+      - identity-network
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGO_DATABASE}
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - identity-network
+
+networks:
+  identity-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
