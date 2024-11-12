@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class TransferRequest {
 
-    @NotNull(message="From Account ID cannot be null")
+    @NotNull(message = "From Account ID cannot be null")
     @Positive(message = "From Account ID must be positive")
     private Long fromAccountId;
 
