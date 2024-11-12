@@ -1,29 +1,38 @@
 services:
-  ms-identity:
-    build:
-      context: .
-    environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@my_mongo:27017/${MONGO_DATABASE}?authSource=admin
-    depends_on:
-      - mongodb
-    networks:
-      - identity-network
-
   mongodb:
-    image: mongo
+    container_name: my_mongo
+    image: mongo:latest
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
     ports:
       - "27018:27017"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
-      - MONGO_INITDB_DATABASE=${MONGO_DATABASE}
+    networks:
+      - app-network
     volumes:
       - mongodb_data:/data/db
+
+  ms-identity:
+    image: ms-identity
+    container_name: ms-identity-app
+    env_file:
+      - .env
+    environment:
+      SPRING_APPLICATION_JSON: '{
+                "spring.data.mongodb.uri" : "mongodb://mongo:mysecretpassword@mongodb:27017/identity_db?authSource=admin"
+              }'
+    ports:
+      - "8081:8080"
     networks:
-      - identity-network
+      - app-network
+    depends_on:
+      - mongodb
+
+
 
 networks:
-  identity-network:
+  app-network:
     driver: bridge
 
 volumes:
