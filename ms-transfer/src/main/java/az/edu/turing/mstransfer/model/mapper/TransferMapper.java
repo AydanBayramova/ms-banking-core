@@ -10,8 +10,11 @@ import org.mapstruct.Mapper;
 public interface TransferMapper {
 
     AccountEntity transferRequestToEntity(TransferRequest transferRequest);
+
     TransferRequest accountEntityToRequest(AccountEntity accountEntity);
+
     AccountEntity transferResponseToEntity(TransferResponse transferResponse);
+
     TransferResponse accountEntityToResponse(AccountEntity accountEntity);
 
 
