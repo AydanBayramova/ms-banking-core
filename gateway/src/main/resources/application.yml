@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: ms-auth
+          uri: lb://ms-auth
+          predicates:
+            - Path=/auth/**
+
+        - id: bff
+          uri: lb://bff
+          predicates:
+            - Path=/bff/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
