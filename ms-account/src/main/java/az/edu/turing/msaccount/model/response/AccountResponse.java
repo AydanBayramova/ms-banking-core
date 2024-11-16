@@ -1,13 +1,11 @@
     package az.edu.turing.msaccount.model.response;
 
-    import az.edu.turing.msaccount.enums.AccountStatus;
+
     import az.edu.turing.msaccount.enums.AccountType;
     import az.edu.turing.msaccount.enums.BankType;
     import az.edu.turing.msaccount.enums.CurrencyType;
     import lombok.*;
 
-    import java.time.LocalDateTime;
-    import java.util.Date;
 
     @Getter
     @Setter

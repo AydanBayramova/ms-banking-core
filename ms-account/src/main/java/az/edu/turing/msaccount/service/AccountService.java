@@ -1,18 +1,16 @@
 package az.edu.turing.msaccount.service;
 
 
-import java.io.IOException;
+
 import java.util.List;
 import java.util.UUID;
 
-import az.edu.turing.msaccount.entity.Account;
+
 import az.edu.turing.msaccount.exception.AccountNotFoundException;
 import az.edu.turing.msaccount.model.request.AccountRequest;
 import az.edu.turing.msaccount.model.response.AccountResponse;
 import az.edu.turing.msaccount.model.response.AccountResponseForMsTransfer;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 
 public interface AccountService {

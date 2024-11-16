@@ -1,11 +1,10 @@
 package az.edu.turing.msaccount.service;
 
 
+
 import az.edu.turing.msaccount.model.TransactionDto;
-import org.hibernate.Transaction;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
