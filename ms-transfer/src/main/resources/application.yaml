@@ -2,3 +2,11 @@ spring:
   application:
     name: ms-transfer
 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/transfer_db
+    username: postgres
+    password: mysecretpassword
+
+  jpa:
+    hibernate:
+      ddl-auto: create

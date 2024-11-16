@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-@NoArgsConstructor
 @Builder
 public class TransferDto {
 

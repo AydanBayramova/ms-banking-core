@@ -1,5 +1,6 @@
 package az.edu.turing.msidentity.mapper;
 
+import az.edu.turing.msidentity.model.dto.request.RegisterRequest;
 import az.edu.turing.msidentity.model.dto.request.UserRequest;
 import az.edu.turing.msidentity.model.dto.response.UserResponse;
 import az.edu.turing.msidentity.entity.UserEntity;
@@ -15,11 +16,15 @@ public interface UserMapper {
 
     UserEntity requestToEntity(UserRequest userRequest);
 
+    UserEntity requestToEntity(RegisterRequest registerRequest);
+
     UserRequest entityToRequest(UserEntity userEntity);
 
     UserResponse entityToResponse(UserEntity userEntity);
 
     List<UserResponse> entityToResponseList(List<UserEntity> userEntity);
+
+
 
 
 }

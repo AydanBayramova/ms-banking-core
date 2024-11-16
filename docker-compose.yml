@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   eureka-server:
@@ -15,12 +14,12 @@ services:
     image: redis:latest
     container_name: redis-server
     ports:
-      - "6379:6379"
+      - "6380:6379"
     networks:
       - app-network
 
   mongodb:
-    container_name: my_mongo
+    container_name: my_mongodb
     image: mongo:latest
     env_file: .env
     environment:
@@ -63,9 +62,46 @@ services:
     depends_on:
       - mongodb
 
+  ms-transfer:
+    image: ms-transfer
+    container_name: ms-transfer-app
+    env_file:
+      - .env
+    environment:
+      SPRING_APPLICATION_JSON: '{
+            "spring.datasource.url": "jdbc:postgresql://postgres:5432/transfer_db",
+            "spring.datasource.username": "postgres",
+            "spring.datasource.password": "mysecretpassword",
+            "spring.datasource.driver-class-name": "org.postgresql.Driver",
+            "spring.jpa.hibernate.ddl-auto": "update",
+            "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.PostgreSQLDialect",
+            "spring.jpa.show-sql": "true"
+              }'
+    ports:
+      - "8088:8088"
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    container_name: my_postgresdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: transfer_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "35432:5432"
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
 
 volumes:
   mongodb_data:
+  postgres-data:
