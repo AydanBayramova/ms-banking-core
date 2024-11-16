@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,7 @@ import static az.edu.turing.msidentity.model.enums.ErrorMessages.USER_REQUEST_CA
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     UserMapper mapper = UserMapper.INSTANCE;
 
     @Override
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService {
             UserEntity user = toUserEntity(userRequest);
             user.setEnabled(true);
             user.setId(UUID.randomUUID());
+            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
             return ResponseEntity.ok(toUserResponse(userRepository.save(user)));
         }
         throw BaseException.of(USER_REQUEST_CANNOT_BE_NULL);

@@ -1,11 +1,24 @@
 package az.edu.turing.msidentity.entity;
 
-import lombok.*;
+import az.edu.turing.msidentity.model.enums.Role;
+
+
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Document(value = "user")
@@ -35,6 +48,13 @@ public class UserEntity {
     @Field("phone_number")
     private String phoneNumber;
 
+    @Field
+    private String password;
+
     @Field("is_enabled")
     private boolean isEnabled;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> roles = new HashSet<>();
+
 }

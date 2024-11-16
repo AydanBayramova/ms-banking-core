@@ -9,9 +9,9 @@ import az.edu.turing.mstransfer.model.dto.TransferResponse;
 import az.edu.turing.mstransfer.model.mapper.TransferMapper;
 import az.edu.turing.mstransfer.service.TransferService;
 import az.edu.turing.mstransfer.model.enums.Status;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.security.auth.login.AccountNotFoundException;
