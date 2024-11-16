@@ -33,7 +33,7 @@ public class CurrencyService {
         }
 
         Map<String, Double> rates = (Map<String, Double>) response.get("rates");
-        Double rate = rates != null ? rates.get(target) : 0.0;
+        double rate = rates != null ? rates.get(target) : 0.0;
 
         return new CurrencyRateDto(base, target, rate);
     }
