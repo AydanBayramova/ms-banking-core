@@ -18,8 +18,6 @@ public interface UserMapper {
 
     UserEntity requestToEntity(RegisterRequest registerRequest);
 
-    UserRequest entityToRequest(UserEntity userEntity);
-
     UserResponse entityToResponse(UserEntity userEntity);
 
     List<UserResponse> entityToResponseList(List<UserEntity> userEntity);
