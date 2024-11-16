@@ -8,7 +8,7 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true  # Eureka vasitəsilə dinamik servisləri tapmaq üçün
+          enabled: true  # Dinamik olaraq servisləri tapmaq üçün həm Eureka, həm də Consul işləyəcək
       routes:
         - id: bff-route
           uri: lb://bff
@@ -24,6 +24,11 @@ spring:
           uri: lb://ms-identity
           predicates:
             - Path=/identity/**
+
+    consul:  # Consul konfiqurasiyası əlavə edilir
+      discovery:
+        enabled: true          # Consul vasitəsilə servisləri tapmağı aktiv edin
+        prefer-ip-address: true # Servis IP-ləri ilə işləsin
 
 eureka:
   client:
