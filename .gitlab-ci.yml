@@ -1,0 +1,31 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  MAVEN_CLI_OPTS: "-s .mvn/wrapper/maven-wrapper.properties"
+
+build:
+  stage: build
+  image: maven:3.8.6-openjdk-17
+  script:
+    - echo "Building the project..."
+    - ./mvnw clean package
+  artifacts:
+    paths:
+      - target/*.jar
+
+test:
+  stage: test
+  image: maven:3.8.6-openjdk-17
+  script:
+    - echo "Running tests..."
+    - ./mvnw test
+
+deploy:
+  stage: deploy
+  image: alpine
+  script:
+    - echo "Deploying to server..."
+    - ssh user@ 172.17.192.1 'docker-compose up -d'
