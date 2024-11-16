@@ -2,7 +2,6 @@ package az.edu.turing.mscurrency.service;
 
 import az.edu.turing.mscurrency.client.ThirdPartyCurrencyClient;
 import az.edu.turing.mscurrency.model.CurrencyRateDto;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;

@@ -16,7 +16,7 @@ public class TransferController {
 
     private final TransferServiceImpl transferServiceImpl;
 
-    @PostMapping("/userId")
+    @PostMapping("/userİd")
     public ResponseEntity<String> transfer(@PathVariable String userId, @Valid @RequestBody TransferDto transferRequest) {
         String amount = transferServiceImpl.accountToAccountTransfer(userId,transferRequest);
         return ResponseEntity.ok(amount);
