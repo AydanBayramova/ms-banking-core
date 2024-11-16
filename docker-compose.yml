@@ -1,0 +1,107 @@
+
+services:
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    container_name: redis-server
+    ports:
+      - "6380:6379"
+    networks:
+      - app-network
+
+  mongodb:
+    container_name: my_mongodb
+    image: mongo:latest
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    ports:
+      - "27018:27017"
+    networks:
+      - app-network
+    volumes:
+      - mongodb_data:/data/db
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    networks:
+      - app-network
+
+  ms-identity:
+    image: ms-identity
+    container_name: ms-identity-app
+    env_file:
+      - .env
+    environment:
+      SPRING_APPLICATION_JSON: '{
+              "spring.data.mongodb.uri" : "mongodb://mongodb:mongodb@localhost:27018/identity_db?authSource=admin"
+              }'
+    ports:
+      - "8084:8084"
+    networks:
+      - app-network
+    depends_on:
+      - mongodb
+
+  ms-transfer:
+    image: ms-transfer
+    container_name: ms-transfer-app
+    env_file:
+      - .env
+    environment:
+      SPRING_APPLICATION_JSON: '{
+            "spring.datasource.url": "jdbc:postgresql://postgres:5432/transfer_db",
+            "spring.datasource.username": "postgres",
+            "spring.datasource.password": "mysecretpassword",
+            "spring.datasource.driver-class-name": "org.postgresql.Driver",
+            "spring.jpa.hibernate.ddl-auto": "update",
+            "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.PostgreSQLDialect",
+            "spring.jpa.show-sql": "true"
+              }'
+    ports:
+      - "8088:8088"
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    container_name: my_postgresdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: transfer_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "35432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  postgres-data:

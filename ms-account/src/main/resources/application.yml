@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: ms-account # Microservice name for Eureka registration
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+account:
+  queue: account.queue # Queue to listen to
+  exchange: account.exchange
+  routingKey: account.routingKey
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Eureka Server URL
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    hostname: ms-account # Hostname for the microservice
+  cloud:
+    consul:
+      discovery:
+        enabled: true
+        prefer-ip-address: true # Servis IP-lə qeydiyyatdan keçsin
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health # Sağlamlıq yoxlamasını aktiv edin
+    health:
+      consul:
+        enabled: true

@@ -1,0 +1,36 @@
+server:
+  port: 8080  # Gateway-i fərqli portda işlətmək üçün (məsələn, 8080)
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true  # Dinamik olaraq servisləri tapmaq üçün həm Eureka, həm də Consul işləyəcək
+      routes:
+        - id: bff-route
+          uri: lb://bff
+          predicates:
+            - Path=/bff/**
+
+        - id: ms-auth-route
+          uri: lb://ms-auth
+          predicates:
+            - Path=/auth/**
+
+        - id: ms-identity-route
+          uri: lb://ms-identity
+          predicates:
+            - Path=/identity/**
+
+    consul:  # Consul konfiqurasiyası əlavə edilir
+      discovery:
+        enabled: true          # Consul vasitəsilə servisləri tapmağı aktiv edin
+        prefer-ip-address: true # Servis IP-ləri ilə işləsin
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # Eureka serverin ünvanı
