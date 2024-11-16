@@ -2,11 +2,9 @@ package az.edu.turing.mstransfer.controller;
 
 
 import az.edu.turing.mstransfer.model.dto.TransferDto;
-import az.edu.turing.mstransfer.model.dto.TransferResponse;
 import az.edu.turing.mstransfer.service.impl.TransferServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +21,7 @@ public class TransferController {
     private final TransferServiceImpl transferServiceImpl;
 
     @PostMapping
-    public ResponseEntity<String> transfer(@Valid @RequestBody TransferDto transferRequest) throws AccountNotFoundException {
+    public ResponseEntity<String> transfer(@Valid @RequestBody TransferDto transferRequest) {
         String amount = transferServiceImpl.accountToAccountTransfer(transferRequest);
         return ResponseEntity.ok(amount);
     }
