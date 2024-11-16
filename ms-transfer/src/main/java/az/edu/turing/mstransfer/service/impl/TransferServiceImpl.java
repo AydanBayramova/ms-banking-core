@@ -69,7 +69,7 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public ResponseEntity<List<TransferDto>> getTranfersByUserId(Long userId) {
+    public ResponseEntity<List<TransferDto>> getTranfersByUserId(String userId) {
         if (userId == null) {
             throw new IdCannotBeNullException("Id cannot be null");
         }
