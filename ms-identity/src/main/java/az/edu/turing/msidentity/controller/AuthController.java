@@ -1,7 +1,6 @@
 package az.edu.turing.msidentity.controller;
 
-import az.edu.turing.msidentity.config.JwtTokenProvider;
-import az.edu.turing.msidentity.entity.UserEntity;
+
 import az.edu.turing.msidentity.model.dto.request.AuthRequest;
 import az.edu.turing.msidentity.model.dto.request.UserRequest;
 import az.edu.turing.msidentity.model.dto.response.AuthResponse;
@@ -25,7 +24,7 @@ import java.util.UUID;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private JwtTokenProvider tokenProvider;
+
 
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
