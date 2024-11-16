@@ -1,9 +1,8 @@
 package az.edu.turing.mstransfer.controller;
 
 
-import az.edu.turing.mstransfer.model.dto.TransferRequest;
+import az.edu.turing.mstransfer.model.dto.TransferDto;
 import az.edu.turing.mstransfer.model.dto.TransferResponse;
-import az.edu.turing.mstransfer.service.TransferService;
 import az.edu.turing.mstransfer.service.impl.TransferServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +23,9 @@ public class TransferController {
     private final TransferServiceImpl transferServiceImpl;
 
     @PostMapping
-    public ResponseEntity<TransferResponse> transfer(@Valid @RequestBody TransferRequest transferRequest) throws AccountNotFoundException {
-        TransferResponse transferResponse = transferServiceImpl.accountToAccountTransfer(transferRequest);
-        return new ResponseEntity<>(transferResponse, HttpStatus.OK);
+    public ResponseEntity<String> transfer(@Valid @RequestBody TransferDto transferRequest) throws AccountNotFoundException {
+        String amount = transferServiceImpl.accountToAccountTransfer(transferRequest);
+        return ResponseEntity.ok(amount);
     }
 
 

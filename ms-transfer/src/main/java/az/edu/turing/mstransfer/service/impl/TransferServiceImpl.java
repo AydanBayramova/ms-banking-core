@@ -1,20 +1,16 @@
 package az.edu.turing.mstransfer.service.impl;
 
-import az.edu.turing.mstransfer.domain.entity.AccountEntity;
-import az.edu.turing.mstransfer.domain.repository.AccountRepository;
-import az.edu.turing.mstransfer.exception.InvalidTransferException;
-import az.edu.turing.mstransfer.exception.TransferValidationException;
-import az.edu.turing.mstransfer.model.dto.TransferRequest;
-import az.edu.turing.mstransfer.model.dto.TransferResponse;
-import az.edu.turing.mstransfer.model.mapper.TransferMapper;
+import az.edu.turing.mstransfer.exception.AccountNotFoundException;
+import az.edu.turing.mstransfer.exception.CurrencyRateNotFounException;
+import az.edu.turing.mstransfer.exception.InsufficientBalanceException;
+import az.edu.turing.mstransfer.model.dto.AccountDto;
+import az.edu.turing.mstransfer.model.dto.CurrencyRateDto;
+import az.edu.turing.mstransfer.model.dto.TransferDto;
 import az.edu.turing.mstransfer.service.TransferService;
-import az.edu.turing.mstransfer.model.enums.Status;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
-import javax.security.auth.login.AccountNotFoundException;
 import java.math.BigDecimal;
 
 @Service
@@ -22,43 +18,66 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class TransferServiceImpl implements TransferService {
 
-    private final AccountRepository accountRepository;
-    private final TransferMapper transferMapper;
+    private final FeignAccountService feignAccountService;
+    private final FeignCurrencyService feignCurrencyService;
+
 
     @Override
-    public TransferResponse accountToAccountTransfer(TransferRequest request) throws AccountNotFoundException {
+    public String accountToAccountTransfer(TransferDto dto) {
+        AccountDto fromAccount = getAccountOrThrow(dto.getFrom());
+        AccountDto toAccount = getAccountOrThrow(dto.getTo());
 
-        AccountEntity sender = accountRepository.findByAccountIdAndStatus(String.valueOf(request.getFromAccountId()), Status.ACTIVE)
-                .orElseThrow(() -> new AccountNotFoundException("No such Active account"));
-        checkAmountAndBalance(sender.getBalance(), request.getAmount());
+        String fromCurrency = fromAccount.getCurrency();
+        String toCurrency = toAccount.getCurrency();
 
-        AccountEntity receiver = accountRepository.findByAccountIdAndStatus(String.valueOf(request.getToAccountId()), Status.ACTIVE)
-                .orElseThrow(() -> new AccountNotFoundException("No such Active account"));
-        validateReceiverAccount(transferMapper.accountEntityToResponse(sender), transferMapper.accountEntityToResponse(receiver));
+        BigDecimal transferAmount = dto.getAmount();
 
-        sender.setBalance(sender.getBalance().subtract(request.getAmount()));
-        accountRepository.save(sender);
+        if (fromCurrency.equals(toCurrency)) {
+            validateBalance(fromAccount, transferAmount);
+            BigDecimal transferredAmount = feignAccountService.changeBalance(
+                    dto.getFrom(), dto.getTo(), transferAmount.floatValue()
+            );
+            return "This amount of money transferred: " + transferredAmount;
+        }
 
-        receiver.setBalance(receiver.getBalance().add(request.getAmount()));
-        accountRepository.save(receiver);
+        CurrencyRateDto currencyRate = getCurrencyRateOrThrow(fromCurrency, toCurrency);
+        BigDecimal convertedAmount = transferAmount.multiply(BigDecimal.valueOf(currencyRate.getRate()));
+        BigDecimal commissionFee = convertedAmount.multiply(BigDecimal.valueOf(currencyRate.getCommission()));
+        BigDecimal totalAmount = convertedAmount.add(commissionFee);
 
-        return null;
+        validateBalance(fromAccount, totalAmount);
+
+        BigDecimal transferredAmount = feignAccountService.changeBalance(
+                dto.getFrom(), dto.getTo(), totalAmount.floatValue()
+        );
+
+        return "This amount of money transferred: " + transferredAmount;
     }
 
-    private void checkAmountAndBalance(BigDecimal balance, BigDecimal amountToTransfer) {
-        if (amountToTransfer == null || amountToTransfer.compareTo(BigDecimal.ONE) < 0) {
-            throw new TransferValidationException("Invalid amount! The amount must be greater than or equal to 1.");
+
+    private AccountDto getAccountOrThrow(String accountNumber) {
+        AccountDto account = feignAccountService.getAccountByNumber(accountNumber).getBody();
+        if (account == null) {
+            throw new AccountNotFoundException("Account not found for number: " + accountNumber);
         }
-        if (balance == null || balance.compareTo(amountToTransfer) < 0) {
-            throw new TransferValidationException("Insufficient balance!");
+        return account;
+    }
+
+
+    private void validateBalance(AccountDto account, BigDecimal requiredAmount) {
+        if (account.getBalance().compareTo(requiredAmount) < 0) {
+            throw new InsufficientBalanceException("Insufficient balance for account: " + account.getAccountNumber());
         }
     }
 
 
-    private void validateReceiverAccount(TransferResponse sender, TransferResponse receiver) {
-        if (sender.getFromAccountId().equals(receiver.getToAccountId())) {
-            throw new InvalidTransferException("Sender and receiver can not be the same");
+    private CurrencyRateDto getCurrencyRateOrThrow(String fromCurrency, String toCurrency) {
+        CurrencyRateDto currencyRate = feignCurrencyService.getCurrencyRate(fromCurrency, toCurrency).getBody();
+        if (currencyRate == null) {
+            throw new CurrencyRateNotFounException("Currency rate not found for: " + fromCurrency + " to " + toCurrency);
         }
+        return currencyRate;
     }
+
 
 }

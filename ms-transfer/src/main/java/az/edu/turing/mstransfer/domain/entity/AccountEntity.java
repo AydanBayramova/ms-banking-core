@@ -20,6 +20,6 @@ public class AccountEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
-    private BigDecimal balance;
+    private double balance;
 
 }

@@ -1,14 +1,13 @@
 package az.edu.turing.mstransfer.service;
 
-import az.edu.turing.mstransfer.model.dto.TransferRequest;
-import az.edu.turing.mstransfer.model.dto.TransferResponse;
+import az.edu.turing.mstransfer.model.dto.TransferDto;
 
 import javax.security.auth.login.AccountNotFoundException;
 
 
 public interface TransferService {
 
-    TransferResponse accountToAccountTransfer(TransferRequest transferRequest) throws AccountNotFoundException;
+    String accountToAccountTransfer(TransferDto transferRequest) throws AccountNotFoundException;
 
 
 }
