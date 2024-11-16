@@ -1,17 +1,30 @@
 spring:
   application:
     name: ms-identity
-  server:
-    servlet:
-      context-path: /ms-identity
-  data:
-    mongodb:
-      uri: mongodb://mongodb:mongodb@localhost:27018/identity_db?authSource=admin
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        enabled: true
+        prefer-ip-address: true
+        register: true
+      config:
+        enabled: true
 server:
   port: 8084
+  servlet:
+    context-path: /ms-identity
+data:
+  mongodb:
+    uri: mongodb://mongodb:mongodb@localhost:27018/identity_db?authSource=admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  health:
+    consul:
+      enabled: true
+    mongo:
+      enabled: true

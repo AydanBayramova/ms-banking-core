@@ -42,8 +42,14 @@ dependencies {
     // MapStruct core dependency
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+
     // MapStruct processor dependency
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    // Eureka Server
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 
 }
 
