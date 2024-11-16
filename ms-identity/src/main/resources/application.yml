@@ -12,6 +12,7 @@ spring:
       config:
         enabled: true
 server:
+
   port: 8084
   servlet:
     context-path: /ms-identity
@@ -28,3 +29,4 @@ management:
       enabled: true
     mongo:
       enabled: true
+

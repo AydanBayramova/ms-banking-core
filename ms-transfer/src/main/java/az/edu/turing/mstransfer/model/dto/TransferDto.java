@@ -3,17 +3,14 @@ package az.edu.turing.mstransfer.model.dto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-@NoArgsConstructor
+@Builder
 public class TransferDto {
 
    @NotEmpty(message = "This field cannot be empty")

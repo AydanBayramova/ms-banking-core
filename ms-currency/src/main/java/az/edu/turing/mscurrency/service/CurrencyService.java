@@ -2,7 +2,6 @@ package az.edu.turing.mscurrency.service;
 
 import az.edu.turing.mscurrency.client.ThirdPartyCurrencyClient;
 import az.edu.turing.mscurrency.model.CurrencyRateDto;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
@@ -33,7 +32,7 @@ public class CurrencyService {
         }
 
         Map<String, Double> rates = (Map<String, Double>) response.get("rates");
-        Double rate = rates != null ? rates.get(target) : 0.0;
+        double rate = rates != null ? rates.get(target) : 0.0;
 
         return new CurrencyRateDto(base, target, rate);
     }
