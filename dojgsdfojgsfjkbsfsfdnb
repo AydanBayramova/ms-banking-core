@@ -1,0 +1,252 @@
+[33mcommit c6f1ed88c118519729d81f5203844e2b605252b8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Merge: 7b78a7c 41eeba1
+Author: AydanBayramova <118756830+AydanBayramova@users.noreply.github.com>
+Date:   Sat Nov 16 15:05:43 2024 +0400
+
+    Merge pull request #7 from AydanBayramova/feature/infrastructure
+    
+    Add .gitlab-ci.yml and try join gitlab for ci/cd process
+
+[33mcommit 41eeba184975d8046d1f4a69842ccf73b118c10e[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Sat Nov 16 15:04:21 2024 +0400
+
+    Add .gitlab-ci.yml and try join gitlab for ci/cd process
+
+[33mcommit 7b78a7c5d333dcd2b06f908bfd2bf5a4b81e67f0[m
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Sat Nov 16 13:28:14 2024 +0400
+
+    ms-transfer updated
+
+[33mcommit 9dfd54b26d70affef277b9d3339f5c7785b11419[m
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Sat Nov 16 13:27:55 2024 +0400
+
+    ms-transfer updated
+
+[33mcommit 72a2b7d322cd577411c63fc88636f58c6694181f[m
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Sat Nov 16 13:26:47 2024 +0400
+
+    ms-transfer updated
+
+[33mcommit 5277282a2c1e59486293a2576dad6c7d90f0a475[m
+Merge: c72956d 2d1c70b
+Author: AydanBayramova <118756830+AydanBayramova@users.noreply.github.com>
+Date:   Fri Nov 15 18:07:07 2024 +0400
+
+    Merge pull request #5 from AydanBayramova/feature/ms-auth
+    
+    Feature/ms auth
+
+[33mcommit 2d1c70b828e59f6474d747da4326f66d28997460[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:06:16 2024 +0400
+
+    Create ThirdPartyCurrencyClient for currency and use feignclient
+
+[33mcommit 3481250041afc20dcca266bc63b7c424bc824ad2[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:05:32 2024 +0400
+
+    Create CurrencyService and methods
+
+[33mcommit 8eb4141747ccd6df91a67257c0d7ff83e579f51b[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:05:02 2024 +0400
+
+    Create CurrencyScheduler and write method for using schedule
+
+[33mcommit ba889bcac959906a343abe9be97034c451fe418c[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:04:34 2024 +0400
+
+    Create CurrencyController and write method
+
+[33mcommit 29959b7990288fb1a0e10422798b49ae43988c04[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:04:12 2024 +0400
+
+    CurrencyRateDto class add fields
+
+[33mcommit 1b30c2d59e6680d4af6e765d17c53fc484fdd03f[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:03:09 2024 +0400
+
+    add annotations for cache and schedule system
+
+[33mcommit 8d838ac921efd2edca28ac2db25c1a6da9354763[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:02:20 2024 +0400
+
+    Create CacheConfig in currency module
+
+[33mcommit 6746ed37ef877d4bafbf3c59856caf4ce03951e3[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:01:32 2024 +0400
+
+    Create Docker compose for every module
+
+[33mcommit dd2d1069390582cacd8cbaee27aeeca68d2c717c[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:01:01 2024 +0400
+
+    Create Dockerfile
+
+[33mcommit 3ac269b25d36e9558d5b519a6a0deadcbc2cb28d[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:00:39 2024 +0400
+
+    add changes
+
+[33mcommit d1b65c80ea8e49ca1e946bb8886fe5039de3bc15[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:00:21 2024 +0400
+
+    add changes
+
+[33mcommit 774baace5f0adf6ae4cd8725d9380dbae9771225[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 18:00:00 2024 +0400
+
+    add properties in yaml files
+
+[33mcommit df694677892e0dd2b8fc4c9a3bb68ed22199a56f[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 17:59:19 2024 +0400
+
+    add dependency and implementations
+
+[33mcommit 0a2b9fb60a10289959bcd1bad1b0ef30c2c3e133[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 17:57:27 2024 +0400
+
+    Change some functionality
+
+[33mcommit 89d05b026178e200ed9bb34574be4246112e9c9a[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Fri Nov 15 17:56:13 2024 +0400
+
+    Change some functionality
+
+[33mcommit c72956d8160ba4407194ccbf1339da050dfec4e7[m
+Merge: 2daee4b f79b851
+Author: AydanBayramova <118756830+AydanBayramova@users.noreply.github.com>
+Date:   Wed Nov 13 17:40:12 2024 +0400
+
+    Merge pull request #4 from AydanBayramova/feature/ms-auth
+    
+    Feature/ms auth
+
+[33mcommit f79b851f2096515ff570e1a0718a48e76bd64edf[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Wed Nov 13 17:39:06 2024 +0400
+
+    Create Gateway module for manage ms and add dependency gateway dependencies, also create application yaml
+
+[33mcommit fa884f1d906162fb86e5bdd6061aff94c1d77f6e[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Wed Nov 13 17:28:24 2024 +0400
+
+    Create eureka-server module and add dependency eureka server and spring cloud
+
+[33mcommit 2daee4be44d836363cc418d7c546c0d6f03da9fd[m
+Author: AydanBayramova <bayramoffaaydan1@gmail.com>
+Date:   Wed Nov 13 17:18:11 2024 +0400
+
+    Mss-auth for login and register use access and refresh token
+
+[33mcommit 9384b53e97111817bb0b710195916fbf2be50e04[m
+Merge: 15f19ec cd64a2a
+Author: Selen Kalbalıyeva <156129412+selen-klblyva@users.noreply.github.com>
+Date:   Wed Nov 13 02:35:07 2024 +0400
+
+    Merge pull request #3 from AydanBayramova/featureS
+    
+    completed transferController and GlobalExceptionHandler
+
+[33mcommit cd64a2a4c6d740ca8849843f2ed22f8fd75c1a6b[m[33m ([m[1;31morigin/featureS[m[33m)[m
+Author: HP ProBook <kalbaliyevaselen@gmai.com>
+Date:   Wed Nov 13 02:24:17 2024 +0400
+
+    completed transferController and GlobalExceptionHandler
+
+[33mcommit 15f19ecc65f3cb91199ec3c728f3d9af7ab9ea21[m
+Merge: 3b9174b 7a0e0f6
+Author: Selen Kalbalıyeva <156129412+selen-klblyva@users.noreply.github.com>
+Date:   Wed Nov 13 01:43:30 2024 +0400
+
+    Merge pull request #2 from AydanBayramova/featureS
+    
+    completed transferService and transferServiceImpl
+
+[33mcommit 7a0e0f6a141cf49d72d6b161c71551c2ec0fc451[m
+Author: HP ProBook <kalbaliyevaselen@gmai.com>
+Date:   Wed Nov 13 01:42:47 2024 +0400
+
+    completed transferService and transferServiceImpl
+
+[33mcommit 3b9174ba595dbee677a411f632cc86a57bcf18a5[m
+Merge: e9f7eca a76a9ef
+Author: Selen Kalbalıyeva <156129412+selen-klblyva@users.noreply.github.com>
+Date:   Tue Nov 12 22:52:07 2024 +0400
+
+    Merge pull request #1 from AydanBayramova/featureS
+    
+    codes of entity and dtos
+
+[33mcommit a76a9ef1764205391e6e44dd8edf94ea8cc2b73f[m
+Author: HP ProBook <kalbaliyevaselen@gmai.com>
+Date:   Tue Nov 12 22:50:42 2024 +0400
+
+    codes of entity and dtos
+
+[33mcommit e9f7eca91e74c2b136c3e29f1efcb0ba7849b954[m
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Tue Nov 12 19:27:53 2024 +0400
+
+    Modified Docker compose
+
+[33mcommit 871bce6f4a8d02acdd1dc8231c72d6646b6d407a[m
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Tue Nov 12 19:27:19 2024 +0400
+
+    Modified Docker compose
+
+[33mcommit d10a26edc61f2955682fdd5ea74bd53cb3a3656c[m
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Tue Nov 12 19:26:46 2024 +0400
+
+    Modified Docker compose
+
+[33mcommit 1cdf5562b0b9bdcce8e8457e8cc6ffd0987360b4[m
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Tue Nov 12 12:35:48 2024 +0400
+
+    Docker file and docker compose attached
+
+[33mcommit 22cbd82f6959e787d720c61a1f8514eecab13eac[m
+Merge: 71d97c7 01ba565
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Tue Nov 12 12:32:03 2024 +0400
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 71d97c7e63cb48cf106a75688dd8b3c436dae2ef[m
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Mon Nov 11 20:49:14 2024 +0400
+
+    Global exception handler modified
+
+[33mcommit 01ba565ff2c6768a08eeb9dc4cb6591a71e5db95[m
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Mon Nov 11 20:49:14 2024 +0400
+
+    ms-identity dockerized and docker-compose file attached
+
+[33mcommit 8bbe03ffdae88199d1afb4594535140cb4f3b1e2[m
+Author: Akbar Babayev <akbarbabayev0@gmail.com>
+Date:   Sun Nov 10 23:48:17 2024 +0400
+
+    ms-ide
