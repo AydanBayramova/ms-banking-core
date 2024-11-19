@@ -13,7 +13,7 @@ spring:
 exchange:
   api:
     url: https://api.exchangeratesapi.io
-    key: 1f454a163f0d011d6f8e52fc2e986d97
+    key: e158906973b85c723b5bba883466eba9
 
 feign:
   hystrix:

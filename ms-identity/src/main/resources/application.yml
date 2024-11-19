@@ -1,24 +1,18 @@
 spring:
   application:
     name: ms-identity
-  cloud:
-    consul:
-      host: localhost
-      port: 8500
-      discovery:
-        enabled: true
-        prefer-ip-address: true
-        register: true
-      config:
-        enabled: true
-server:
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
 
-  port: 8084
   servlet:
     context-path: /ms-identity
 data:
   mongodb:
-    uri: mongodb://mongodb:mongodb@localhost:27018/identity_db?authSource=admin
+    uri: mongodb://admin:adminpassword@localhost:27020/identity_db?authSource=admin
 management:
   endpoints:
     web:
@@ -30,3 +24,9 @@ management:
     mongo:
       enabled: true
 
+
+
+jwt:
+  secret: 9rvuHvQY8fPmkQoVdPo7OQg4NYrmcJkjsYYBZj5gL0A=
+  access-token-expiration: 900000
+  refresh-token-expiration: 604800000

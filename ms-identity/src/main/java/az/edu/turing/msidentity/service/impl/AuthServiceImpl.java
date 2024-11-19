@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -33,6 +35,8 @@ public class AuthServiceImpl implements AuthService {
         }
         UserEntity user = userMapper.requestToEntity(registerRequest);
         user.setPassword(passwordEncoderUtil.encode(registerRequest.password()));
+        user.setId(UUID.randomUUID());
+        user.setEnabled(true);
         UserEntity userEntity = userRepository.save(user);
         new RegisterResponse();
         return ResponseEntity.ok(RegisterResponse.builder().id(userEntity.getId()).username(userEntity.getUsername()).message("Registered successfully").build());

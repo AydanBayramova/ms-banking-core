@@ -24,6 +24,6 @@ public class CacheConfig {
         return Caffeine.newBuilder()
                 .initialCapacity(10)
                 .maximumSize(100)
-                .expireAfterWrite(1, TimeUnit.MINUTES);
+                .expireAfterWrite(3600, TimeUnit.MINUTES);
     }
 }
