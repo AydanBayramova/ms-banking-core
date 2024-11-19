@@ -12,7 +12,7 @@ public class CurrencyScheduler {
     private final CurrencyService currencyService;
 
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 360000)
     public void updateCurrencyRates() {
         System.out.println("Currency rates updated...");
         currencyService.getCurrencyRate("EUR", "AZN");

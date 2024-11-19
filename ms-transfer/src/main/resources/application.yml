@@ -6,11 +6,17 @@ spring:
     port: 5672
     username: guest
     password: guest
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: Aba32835
+    driver-class-name: org.postgresql.Driver
 
-transfer:
-  queue: transfer.queue # Queue to listen to
-  exchange: transfer.exchange
-  routingKey: transfer.routingKey
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true # Optional: enables logging of SQL queries
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 eureka:
   client:
@@ -20,3 +26,10 @@ eureka:
     fetch-registry: true
   instance:
     hostname: ms-transfer # Hostname for the microservice
+
+transfer:
+  queue: transfer.queue # Queue to listen to
+  exchange: transfer.exchange
+  routingKey: transfer.routingKey
+server:
+  port: 8086

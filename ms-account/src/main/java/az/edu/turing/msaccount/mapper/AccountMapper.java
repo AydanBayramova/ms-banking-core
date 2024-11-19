@@ -14,14 +14,7 @@ public interface AccountMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromRequest(AccountRequest registerRequest, @MappingTarget Account accountEntity);
 
-    @Mappings({
-            @Mapping(source = "username", target = "username"),
-            @Mapping(source = "password", target = "password"),
-            @Mapping(source = "email", target = "email"),
-            @Mapping(source = "bank", target = "bank"),
-            @Mapping(source = "type", target = "type"),
-            @Mapping(source = "currency", target = "currency")
-    })
+
     Account toAccountEntity(AccountRequest accountRequest);
 
     AccountResponse toAccountDto(Account accountEntity);
