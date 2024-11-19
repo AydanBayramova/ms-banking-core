@@ -1,16 +1,31 @@
 spring:
   application:
     name: ms-account # Microservice name for Eureka registration
+
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
 
-account:
-  queue: account.queue # Queue to listen to
-  exchange: account.exchange
-  routingKey: account.routingKey
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: Aba32835
+    driver-class-name: org.postgresql.Driver
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 2MB
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 eureka:
   client:
@@ -20,16 +35,10 @@ eureka:
     fetch-registry: true
   instance:
     hostname: ms-account # Hostname for the microservice
-  cloud:
-    consul:
-      discovery:
-        enabled: true
-        prefer-ip-address: true # Servis IP-lə qeydiyyatdan keçsin
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: health # Sağlamlıq yoxlamasını aktiv edin
-    health:
-      consul:
-        enabled: true
+
+account:
+  queue: account.queue # Queue to listen to
+  exchange: account.exchange
+  routingKey: account.routingKey
+server:
+  port: 8095

@@ -24,6 +24,7 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8' // Caffeine
     compileOnly 'org.projectlombok:lombok' // Lombok
     annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 
     // Test asılılıqları
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

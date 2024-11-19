@@ -1,4 +1,7 @@
 spring:
+  application:
+    name: gateway
+
   cloud:
     gateway:
       discovery:
@@ -15,11 +18,7 @@ spring:
           predicates:
             - Path=/identity/**
 
-consul:
-  discovery:
-    enabled: true
-    prefer-ip-address: true
-    register: true
+
 eureka:
   client:
     service-url:
