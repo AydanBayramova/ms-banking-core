@@ -25,5 +25,4 @@ public class AccountRequest {
     private BankType bank;
     private AccountType type;
     private CurrencyType currency;
-    //private byte[] profilePhoto;
 }

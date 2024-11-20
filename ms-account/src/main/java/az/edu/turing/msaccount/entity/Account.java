@@ -58,9 +58,6 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private CurrencyType currency;
 
-    /*//@Column(name = "profile_photo", nullable = false)
-    private byte[] profilePhoto;*/
-
     @Column(name = "user_id")
     private UUID userId;
 

@@ -1,9 +1,12 @@
 package az.edu.turing.msaccount.service.impl;
 
+import az.edu.turing.msaccount.client.TransferDto;
+import az.edu.turing.msaccount.client.TransferFeignService;
 import az.edu.turing.msaccount.entity.Account;
 import az.edu.turing.msaccount.enums.AccountStatus;
 import az.edu.turing.msaccount.exception.AccountNotFoundException;
 import az.edu.turing.msaccount.exception.CanNotBeBlankException;
+import az.edu.turing.msaccount.exception.TransactionFetchException;
 import az.edu.turing.msaccount.mapper.AccountMapper;
 import az.edu.turing.msaccount.model.request.AccountRequest;
 import az.edu.turing.msaccount.model.response.AccountResponse;
@@ -27,16 +30,26 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository repository;
     private final AccountMapper accountMapper;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final TransferFeignService feignClient;
 
 
-    @Override
-    public ResponseEntity<AccountResponse> getAccountById(Long accId) {
-        Optional<Account> accountEntity = repository.findById(accId);
+    public AccountResponse fetchAccountDetailsWithTransactions(Long accountId) {
+        Optional<Account> accountEntity = repository.findById(accountId);
 
-        if (accountEntity.get().getActive() == AccountStatus.ACTIVATED) {
-            return ResponseEntity.ok(accountMapper.toAccountDto(accountEntity.get()));
+        if (accountEntity.isEmpty() || accountEntity.get().getActive() != AccountStatus.ACTIVATED) {
+            throw new AccountNotFoundException("Account not found or not active: " + accountId);
         }
-        return ResponseEntity.notFound().build();
+
+        AccountResponse accountResponse = accountMapper.toAccountDto(accountEntity.get());
+
+        ResponseEntity<List<TransferDto>> transactionsResponse = feignClient.getTransfersByAccNumber(accountResponse.getNumber());
+
+        if (transactionsResponse.getBody() == null || !transactionsResponse.getStatusCode().is2xxSuccessful()) {
+            throw new TransactionFetchException("Failed to fetch transactions", accountResponse);
+        }
+
+        accountResponse.setTransfers(transactionsResponse.getBody());
+        return accountResponse;
     }
 
     @Override
@@ -71,8 +84,6 @@ public class AccountServiceImpl implements AccountService {
         accountMapper.updateEntityFromRequest(registerRequest, accountEntity);
 
         accountEntity.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        //byte[] profilePhotoBytes = Base64.getDecoder().decode(registerRequest.getProfilePhoto());
-        //accountEntity.setProfilePhoto(profilePhotoBytes);
 
         Account updatedAccount = repository.save(accountEntity);
         AccountResponse response = accountMapper.toAccountDto(updatedAccount);

@@ -1,4 +1,4 @@
-package az.edu.turing.mstransfer.model.dto;
+package az.edu.turing.msaccount.client;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -7,7 +7,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder

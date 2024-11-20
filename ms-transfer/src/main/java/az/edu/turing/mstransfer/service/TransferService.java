@@ -11,4 +11,6 @@ public interface TransferService {
     String accountToAccountTransfer(String userId, TransferDto transferRequest);
 
     ResponseEntity<List<TransferDto>> getTranfersByUserId(String userId);
+
+    ResponseEntity<List<TransferDto>> getTransfersByAccNumber(String accNumber);
 }

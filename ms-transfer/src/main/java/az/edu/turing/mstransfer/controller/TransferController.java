@@ -25,8 +25,13 @@ public class TransferController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<TransferDto>> getTransfer(@PathVariable String userId) {
+    public ResponseEntity<List<TransferDto>> getTransfers(@PathVariable String userId) {
         return transferServiceImpl.getTranfersByUserId(userId);
+    }
+
+    @GetMapping("/{accNumber}")
+    public ResponseEntity<List<TransferDto>> getTransfersByAccNumber(@PathVariable String accNumber) {
+        return transferServiceImpl.getTransfersByAccNumber(accNumber);
     }
 
 

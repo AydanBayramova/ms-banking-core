@@ -2,10 +2,7 @@ package az.edu.turing.mstransfer.service.impl;
 
 import az.edu.turing.mstransfer.domain.entity.TransferEntity;
 import az.edu.turing.mstransfer.domain.repository.TransferRepository;
-import az.edu.turing.mstransfer.exception.AccountNotFoundException;
-import az.edu.turing.mstransfer.exception.CurrencyRateNotFounException;
-import az.edu.turing.mstransfer.exception.IdCannotBeNullException;
-import az.edu.turing.mstransfer.exception.InsufficientBalanceException;
+import az.edu.turing.mstransfer.exception.*;
 import az.edu.turing.mstransfer.model.dto.AccountDto;
 import az.edu.turing.mstransfer.model.dto.CurrencyRateDto;
 import az.edu.turing.mstransfer.model.dto.TransferDto;
@@ -82,6 +79,24 @@ public class TransferServiceImpl implements TransferService {
                     .to(transfer.getSourceAccount())
                     .amount(transfer.getAmount()).build());
 
+        }
+        return ResponseEntity.ok(transferDtos);
+    }
+
+    @Override
+    public ResponseEntity<List<TransferDto>> getTransfersByAccNumber(String accNumber) {
+        if (accNumber == null) {
+            throw new IdCannotBeNullException("Account number cannot be null");
+        }
+        List<TransferEntity> transferEntities = transferRepository.getTransferEntityBySourceAccount(accNumber)
+                .orElseThrow(() -> new NoTransferException("No transfer for this account"));
+        List<TransferDto> transferDtos = new ArrayList<>();
+        for (TransferEntity entity : transferEntities) {
+            transferDtos.add(TransferDto.builder()
+                    .from(entity.getSourceAccount())
+                    .to(entity.getDestinationAccount())
+                    .amount(entity.getAmount())
+                    .build());
         }
         return ResponseEntity.ok(transferDtos);
     }

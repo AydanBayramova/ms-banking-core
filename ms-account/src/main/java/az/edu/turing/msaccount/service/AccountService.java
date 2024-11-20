@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface AccountService {
 
-     ResponseEntity<AccountResponse> getAccountById(Long accId);
+     AccountResponse fetchAccountDetailsWithTransactions(Long accountId);
 
      List<AccountResponse> getAllAccounts();
 

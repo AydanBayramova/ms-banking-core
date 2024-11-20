@@ -1,12 +1,11 @@
 package az.edu.turing.msaccount.controller;
 
 import az.edu.turing.msaccount.exception.AccountNotFoundException;
-import az.edu.turing.msaccount.model.TransactionDto;
+import az.edu.turing.msaccount.exception.TransactionFetchException;
 import az.edu.turing.msaccount.model.request.AccountRequest;
 import az.edu.turing.msaccount.model.response.AccountResponse;
 import az.edu.turing.msaccount.model.response.AccountResponseForMsTransfer;
 import az.edu.turing.msaccount.service.AccountService;
-import az.edu.turing.msaccount.service.TransferFeign;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -28,30 +28,20 @@ import java.util.UUID;
 public class AccountController {
     private final AccountService service;
 
-    private final TransferFeign feign;
-
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "{accId}")
     public ResponseEntity<AccountResponse> fetchAccount(@NotNull @PathVariable(name = "accId") Long accountId) {
-        log.info("Fetching Account details with account id: {}", accountId);
+        log.info("Fetching account details for id: {}", accountId);
 
-        ResponseEntity<AccountResponse> account = service.getAccountById(accountId);
-
-        if (account.getBody() == null || !account.getStatusCode().is2xxSuccessful()) {
-            log.error("Failed to fetch account details for id: {}", accountId);
+        try {
+            AccountResponse accountResponse = service.fetchAccountDetailsWithTransactions(accountId);
+            return ResponseEntity.ok(accountResponse);
+        } catch (AccountNotFoundException e) {
+            log.error("Account not found: {}", accountId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (TransactionFetchException e) {
+            log.error("Failed to fetch transactions for account id: {}", accountId);
+            return ResponseEntity.ok(e.getAccountResponseWithoutTransactions());
         }
-
-        log.info("Fetching transactions of account: {}", account.getBody().getNumber());
-        ResponseEntity<List<TransactionDto>> transactions = feign.getTransactions(account.getBody().getNumber());
-
-        if (transactions.getBody() == null || !transactions.getStatusCode().is2xxSuccessful()) {
-            log.error("Failed to fetch transactions for account number: {}", account.getBody().getNumber());
-
-        } else {
-            log.info("Received transactions response: {}", transactions.getBody());
-        }
-
-        return account;
     }
 
 
@@ -65,8 +55,6 @@ public class AccountController {
     public ResponseEntity<AccountResponse> createAccount(
             @Valid @RequestBody AccountRequest account,
             @PathVariable String userId) {
-
-        ///byte[] bytes = profilePhoto.getBytes();
 
 
         return service.createAccount(UUID.fromString(userId), account);
