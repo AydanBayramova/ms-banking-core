@@ -1,4 +1,3 @@
-
 services:
   eureka-server:
     build:
@@ -6,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: eureka-server
     ports:
-      - "8761:8761"
+      - "8762:8762"
     networks:
       - app-network
 
@@ -14,9 +13,25 @@ services:
     image: redis:latest
     container_name: redis-server
     ports:
-      - "6380:6379"
+      - "6379:6379"
     networks:
       - app-network
+
+  ms-currency:
+    build:
+      context: ./ms-currency
+      dockerfile: Dockerfile
+    container_name: ms-currency-app
+    env_file:
+      - .env
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    ports:
+      - "8083:8083"
+    networks:
+      - app-network
+    depends_on:
+      - eureka-server
 
   mongodb:
     container_name: my_mongodb
@@ -40,11 +55,35 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
     ports:
-      - "8080:8080"
+      - "8081:8081"
     depends_on:
       - eureka-server
     networks:
       - app-network
+
+  ms-account:
+    image: ms-account
+    container_name: ms-account-app
+    env_file:
+      - .env
+    environment:
+      SPRING_APPLICATION_JSON: >
+        {
+          "spring.datasource.url": "jdbc:postgresql://postgres:5432/postgres",
+          "spring.datasource.username": "postgres",
+          "spring.datasource.password": "Aba32835",
+          "spring.datasource.driver-class-name": "org.postgresql.Driver",
+          "spring.jpa.hibernate.ddl-auto": "update",
+          "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.PostgreSQLDialect",
+          "spring.jpa.show-sql": "true"
+        }
+    ports:
+      - "8085:8085"
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+      - eureka-server
 
   ms-identity:
     image: ms-identity
@@ -52,9 +91,10 @@ services:
     env_file:
       - .env
     environment:
-      SPRING_APPLICATION_JSON: '{
-              "spring.data.mongodb.uri" : "mongodb://mongodb:mongodb@localhost:27018/identity_db?authSource=admin"
-              }'
+      SPRING_APPLICATION_JSON: >
+        {
+          "spring.data.mongodb.uri": "mongodb://my_mongodb:27017/identity_db?authSource=admin"
+        }
     ports:
       - "8084:8084"
     networks:
@@ -68,17 +108,18 @@ services:
     env_file:
       - .env
     environment:
-      SPRING_APPLICATION_JSON: '{
-            "spring.datasource.url": "jdbc:postgresql://postgres:5432/transfer_db",
-            "spring.datasource.username": "postgres",
-            "spring.datasource.password": "mysecretpassword",
-            "spring.datasource.driver-class-name": "org.postgresql.Driver",
-            "spring.jpa.hibernate.ddl-auto": "update",
-            "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.PostgreSQLDialect",
-            "spring.jpa.show-sql": "true"
-              }'
+      SPRING_APPLICATION_JSON: >
+        {
+          "spring.datasource.url": "jdbc:postgresql://postgres:5432/postgres",
+          "spring.datasource.username": "postgres",
+          "spring.datasource.password": "Aba32835",
+          "spring.datasource.driver-class-name": "org.postgresql.Driver",
+          "spring.jpa.hibernate.ddl-auto": "update",
+          "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.PostgreSQLDialect",
+          "spring.jpa.show-sql": "true"
+        }
     ports:
-      - "8088:8088"
+      - "8090:8090"
     networks:
       - app-network
     depends_on:
@@ -86,15 +127,14 @@ services:
 
   postgres:
     image: postgres
-    container_name: my_postgresdb
+    container_name: postgres-container
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: transfer_db
+      POSTGRES_PASSWORD: Aba32835
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
-      - "35432:5432"
+      - "5432:5432"
     networks:
       - app-network
 
