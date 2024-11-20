@@ -1,20 +1,21 @@
 package az.edu.turing.msaccount.service.impl;
 
-import az.edu.turing.msaccount.client.TransferDto;
-import az.edu.turing.msaccount.client.TransferFeignService;
 import az.edu.turing.msaccount.entity.Account;
 import az.edu.turing.msaccount.enums.AccountStatus;
 import az.edu.turing.msaccount.exception.AccountNotFoundException;
 import az.edu.turing.msaccount.exception.CanNotBeBlankException;
-import az.edu.turing.msaccount.exception.TransactionFetchException;
 import az.edu.turing.msaccount.mapper.AccountMapper;
+import az.edu.turing.msaccount.model.TransactionDto;
 import az.edu.turing.msaccount.model.request.AccountRequest;
 import az.edu.turing.msaccount.model.response.AccountResponse;
 import az.edu.turing.msaccount.model.response.AccountResponseForMsTransfer;
 import az.edu.turing.msaccount.repository.AccountRepository;
 import az.edu.turing.msaccount.service.AccountService;
+import az.edu.turing.msaccount.service.TransferFeign;
 import az.edu.turing.msaccount.util.Generator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,33 +24,24 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository repository;
     private final AccountMapper accountMapper;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final TransferFeignService feignClient;
+    private final TransferFeign feign;
 
 
-    public AccountResponse fetchAccountDetailsWithTransactions(Long accountId) {
-        Optional<Account> accountEntity = repository.findById(accountId);
+    @Override
+    public ResponseEntity<AccountResponse> getAccountById(Long accId) {
+        Optional<Account> accountEntity = repository.findById(accId);
 
-        if (accountEntity.isEmpty() || accountEntity.get().getActive() != AccountStatus.ACTIVATED) {
-            throw new AccountNotFoundException("Account not found or not active: " + accountId);
+        if (accountEntity.get().getActive() == AccountStatus.ACTIVATED) {
+            return ResponseEntity.ok(accountMapper.toAccountDto(accountEntity.get()));
         }
-
-        AccountResponse accountResponse = accountMapper.toAccountDto(accountEntity.get());
-
-        ResponseEntity<List<TransferDto>> transactionsResponse = feignClient.getTransfersByAccNumber(accountResponse.getNumber());
-
-        if (transactionsResponse.getBody() == null || !transactionsResponse.getStatusCode().is2xxSuccessful()) {
-            throw new TransactionFetchException("Failed to fetch transactions", accountResponse);
-        }
-
-        accountResponse.setTransfers(transactionsResponse.getBody());
-        return accountResponse;
+        return ResponseEntity.notFound().build();
     }
 
     @Override
@@ -84,6 +76,8 @@ public class AccountServiceImpl implements AccountService {
         accountMapper.updateEntityFromRequest(registerRequest, accountEntity);
 
         accountEntity.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        //byte[] profilePhotoBytes = Base64.getDecoder().decode(registerRequest.getProfilePhoto());
+        //accountEntity.setProfilePhoto(profilePhotoBytes);
 
         Account updatedAccount = repository.save(accountEntity);
         AccountResponse response = accountMapper.toAccountDto(updatedAccount);
@@ -130,6 +124,29 @@ public class AccountServiceImpl implements AccountService {
                 .accountNumber(account.getNumber())
                 .currency(account.getCurrency().name())
                 .balance(BigDecimal.valueOf(account.getBalance())).build());
+    }
+
+    public ResponseEntity<AccountResponse> fetchAccountWithTransactions(Long accountId) {
+        log.info("Fetching Account details with account id: {}", accountId);
+
+        ResponseEntity<AccountResponse> account = getAccountById(accountId);
+
+        if (account.getBody() == null || !account.getStatusCode().is2xxSuccessful()) {
+            log.error("Failed to fetch account details for id: {}", accountId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        log.info("Fetching transactions of account: {}", account.getBody().getNumber());
+        ResponseEntity<List<TransactionDto>> transactions = feign.getTransactions(account.getBody().getNumber());
+
+        if (transactions.getBody() == null || !transactions.getStatusCode().is2xxSuccessful()) {
+            log.error("Failed to fetch transactions for account number: {}", account.getBody().getNumber());
+
+        } else {
+            log.info("Received transactions response: {}", transactions.getBody());
+        }
+
+        return account;
     }
 
 

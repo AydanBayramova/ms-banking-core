@@ -1,11 +1,12 @@
 package az.edu.turing.msaccount.controller;
 
 import az.edu.turing.msaccount.exception.AccountNotFoundException;
-import az.edu.turing.msaccount.exception.TransactionFetchException;
+import az.edu.turing.msaccount.model.TransactionDto;
 import az.edu.turing.msaccount.model.request.AccountRequest;
 import az.edu.turing.msaccount.model.response.AccountResponse;
 import az.edu.turing.msaccount.model.response.AccountResponseForMsTransfer;
 import az.edu.turing.msaccount.service.AccountService;
+import az.edu.turing.msaccount.service.TransferFeign;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,20 +29,12 @@ import java.util.UUID;
 public class AccountController {
     private final AccountService service;
 
+    private final TransferFeign feign;
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "{accId}")
     public ResponseEntity<AccountResponse> fetchAccount(@NotNull @PathVariable(name = "accId") Long accountId) {
-        log.info("Fetching account details for id: {}", accountId);
 
-        try {
-            AccountResponse accountResponse = service.fetchAccountDetailsWithTransactions(accountId);
-            return ResponseEntity.ok(accountResponse);
-        } catch (AccountNotFoundException e) {
-            log.error("Account not found: {}", accountId);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (TransactionFetchException e) {
-            log.error("Failed to fetch transactions for account id: {}", accountId);
-            return ResponseEntity.ok(e.getAccountResponseWithoutTransactions());
-        }
+        return service.fetchAccountWithTransactions(accountId);
     }
 
 
@@ -56,7 +49,7 @@ public class AccountController {
             @Valid @RequestBody AccountRequest account,
             @PathVariable String userId) {
 
-
+        ///byte[] bytes = profilePhoto.getBytes();
         return service.createAccount(UUID.fromString(userId), account);
     }
 
@@ -80,7 +73,7 @@ public class AccountController {
             @NotBlank(message = "Destination account number is required") @RequestParam("destination") String destination,
             @NotNull(message = "Amount cannnot be empty") @RequestParam("amount") Float amount)
             throws AccountNotFoundException {
-        log.info("Transaction initiated in Account: {}");
+        ;
         log.info("Sending {} INR from {} account to {} account", amount, source, destination);
         return service.changeBalance(source, destination, amount);
     }
