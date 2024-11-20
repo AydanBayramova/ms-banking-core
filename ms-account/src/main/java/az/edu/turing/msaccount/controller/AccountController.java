@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -32,26 +33,8 @@ public class AccountController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "{accId}")
     public ResponseEntity<AccountResponse> fetchAccount(@NotNull @PathVariable(name = "accId") Long accountId) {
-        log.info("Fetching Account details with account id: {}", accountId);
 
-        ResponseEntity<AccountResponse> account = service.getAccountById(accountId);
-
-        if (account.getBody() == null || !account.getStatusCode().is2xxSuccessful()) {
-            log.error("Failed to fetch account details for id: {}", accountId);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        log.info("Fetching transactions of account: {}", account.getBody().getNumber());
-        ResponseEntity<List<TransactionDto>> transactions = feign.getTransactions(account.getBody().getNumber());
-
-        if (transactions.getBody() == null || !transactions.getStatusCode().is2xxSuccessful()) {
-            log.error("Failed to fetch transactions for account number: {}", account.getBody().getNumber());
-
-        } else {
-            log.info("Received transactions response: {}", transactions.getBody());
-        }
-
-        return account;
+        return service.fetchAccountWithTransactions(accountId);
     }
 
 
@@ -67,8 +50,6 @@ public class AccountController {
             @PathVariable String userId) {
 
         ///byte[] bytes = profilePhoto.getBytes();
-
-
         return service.createAccount(UUID.fromString(userId), account);
     }
 
@@ -92,7 +73,7 @@ public class AccountController {
             @NotBlank(message = "Destination account number is required") @RequestParam("destination") String destination,
             @NotNull(message = "Amount cannnot be empty") @RequestParam("amount") Float amount)
             throws AccountNotFoundException {
-        log.info("Transaction initiated in Account: {}");
+        ;
         log.info("Sending {} INR from {} account to {} account", amount, source, destination);
         return service.changeBalance(source, destination, amount);
     }
