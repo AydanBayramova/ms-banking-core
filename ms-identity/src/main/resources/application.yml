@@ -7,6 +7,10 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
+  instance:
+    hostname: ms-identity
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
 
   servlet:
     context-path: /ms-identity

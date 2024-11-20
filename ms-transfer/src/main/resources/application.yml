@@ -21,11 +21,13 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/ # Eureka Server URL
+      defaultZone: http://localhost:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
   instance:
-    hostname: ms-transfer # Hostname for the microservice
+    hostname: ms-transfer
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
 
 transfer:
   queue: transfer.queue # Queue to listen to

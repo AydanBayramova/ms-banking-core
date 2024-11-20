@@ -1,5 +1,7 @@
 package az.edu.turing.msidentity.service.impl;
 
+import az.edu.turing.msidentity.client.AccountClient;
+import az.edu.turing.msidentity.client.AccountRequest;
 import az.edu.turing.msidentity.entity.UserEntity;
 import az.edu.turing.msidentity.mapper.UserMapper;
 import az.edu.turing.msidentity.model.dto.request.LoginRequest;
@@ -26,6 +28,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoderUtil;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final AccountClient accountClient;
 
 
     @Override
@@ -39,6 +42,17 @@ public class AuthServiceImpl implements AuthService {
         user.setEnabled(true);
         UserEntity userEntity = userRepository.save(user);
         new RegisterResponse();
+        AccountRequest accountRequest = new AccountRequest();
+      accountRequest.setUsername(userEntity.getUsername());
+      accountRequest.setEmail(userEntity.getEmail());
+      accountRequest.setPassword(passwordEncoderUtil.encode(registerRequest.password()));
+        accountClient.createAccount(accountRequest, String.valueOf(user.getId())); // ms-account-da avtomatik hesab yaradılır
+        ResponseEntity<String> response = accountClient.createAccount(accountRequest, String.valueOf(user.getId()));
+        if (response.getStatusCode().is2xxSuccessful()) {
+            System.out.println("Hesab uğurla yaradıldı: " + response.getBody());
+        } else {
+            System.err.println("Hesab yaradıla bilmədi.");
+        }
         return ResponseEntity.ok(RegisterResponse.builder().id(userEntity.getId()).username(userEntity.getUsername()).message("Registered successfully").build());
     }
 
