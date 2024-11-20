@@ -11,5 +11,5 @@ import java.util.List;
 public interface TransferFeignService {
 
     @GetMapping("/api/v1/transfers/{accNumber}")
-    public ResponseEntity<List<TransferDto>> getTransfersByAccNumber(@PathVariable("accNumber") String accNumber);
+     ResponseEntity<List<TransferDto>> getTransfersByAccNumber(@PathVariable("accNumber") String accNumber);
 }
