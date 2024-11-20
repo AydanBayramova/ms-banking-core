@@ -10,6 +10,5 @@ public class AccountMessageConsumer {
     @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
     public void handleTransferMessage(String message) {
         System.out.println("Received transfer event: " + message);
-        // Process the transfer event
     }
 }
