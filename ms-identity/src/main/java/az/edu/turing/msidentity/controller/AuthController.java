@@ -1,5 +1,6 @@
 package az.edu.turing.msidentity.controller;
 
+import az.edu.turing.msidentity.entity.UserEntity;
 import az.edu.turing.msidentity.model.dto.request.LoginRequest;
 import az.edu.turing.msidentity.model.dto.response.AuthResponse;
 import az.edu.turing.msidentity.model.dto.response.LoginResponse;
@@ -8,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import az.edu.turing.msidentity.model.dto.request.RegisterRequest;
-import az.edu.turing.msidentity.model.dto.response.RegisterResponse;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -18,7 +18,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> registerUser(@RequestBody RegisterRequest registerRequest) {
+    public UserEntity registerUser(@RequestBody RegisterRequest registerRequest) {
         return authService.registerAccount(registerRequest);
     }
 

@@ -61,16 +61,14 @@ public class AccountController {
         return service.getAllAccounts();
     }
 
-    @PostMapping(value = "add/{userId}")
+    @PostMapping("add/{userId}")
     public ResponseEntity<AccountResponse> createAccount(
             @Valid @RequestBody AccountRequest account,
             @PathVariable String userId) {
-
-        ///byte[] bytes = profilePhoto.getBytes();
-
-
+        log.info("Yeni hesab yaradılır. UserId: {}, Username: {}", userId, account.getUsername());
         return service.createAccount(UUID.fromString(userId), account);
     }
+
 
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
