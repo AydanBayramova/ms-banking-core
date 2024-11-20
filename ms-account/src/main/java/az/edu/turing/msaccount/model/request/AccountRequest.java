@@ -13,13 +13,13 @@ import lombok.*;
 @Builder
 public class AccountRequest {
 
-    @NotBlank(message = "Username is mandatory")
+  //  @NotBlank(message = "Username is mandatory")
     private String username;
 
-    @NotBlank(message = "Password is mandatory")
+  //  @NotBlank(message = "Password is mandatory")
     private String password;
 
-    @NotBlank(message = "Email is mandatory")
+   // @NotBlank(message = "Email is mandatory")
     private String email;
 
     private BankType bank;
