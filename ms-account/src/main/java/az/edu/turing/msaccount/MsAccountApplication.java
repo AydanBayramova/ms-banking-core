@@ -8,6 +8,7 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 @SpringBootApplication
 @EnableEurekaServer
 @EnableFeignClients
+
 public class MsAccountApplication {
 
     public static void main(String[] args) {
