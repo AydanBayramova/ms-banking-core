@@ -46,5 +46,4 @@ public class GlobalExceptionHandler {
                 .path(request.getRequestURI())
                 .build(), ex.getResponseMessage().getHttpStatus());
     }
-
 }

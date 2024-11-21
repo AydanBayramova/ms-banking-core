@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 public class CurrencyRateDto {
 
     private String base;
+
     private String target;
+
     private double rate;
 }

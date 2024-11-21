@@ -12,10 +12,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class RegisterResponse {
+
     @NotNull
     private UUID id;
+
     @NotBlank
     private String username;
+
     @NotBlank
     private String message;
 

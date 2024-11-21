@@ -61,7 +61,6 @@ public class AccountController {
     }
 
 
-
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AccountResponse> updateAccount(@RequestParam("id") Long id, @RequestBody AccountRequest account) throws AccountNotFoundException {
         log.info("Updated account details: {} ", account);

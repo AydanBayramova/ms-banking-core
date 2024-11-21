@@ -9,12 +9,16 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginResponse {
+
         @NotBlank
         private String message;
+
         @NotBlank
         private String username;
+
         @NotBlank
         private  String accessToken;
+
         @NotBlank
         private String refreshToken;
 

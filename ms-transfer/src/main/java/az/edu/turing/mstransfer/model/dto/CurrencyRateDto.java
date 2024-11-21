@@ -12,7 +12,10 @@ import lombok.Setter;
 public class CurrencyRateDto {
 
     private String base;
+
     private String target;
+
     private double rate;
+
     private double commission;
 }

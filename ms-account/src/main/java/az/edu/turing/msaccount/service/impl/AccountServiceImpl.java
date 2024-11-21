@@ -28,6 +28,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
+
     private final AccountRepository repository;
     private final AccountMapper accountMapper;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -133,27 +134,4 @@ public class AccountServiceImpl implements AccountService {
                 .currency(account.getCurrency().name())
                 .balance(BigDecimal.valueOf(account.getBalance())).build());
     }
-//    @Transactional
-//    public float updateBalances(String fromAccount, String toAccount, float amount) {
-//        Account from = repository.findByNumber(fromAccount)
-//                .orElseThrow(() -> new AccountNotFoundException("From account not found"));
-//
-//        Account to = repository.findByNumber(toAccount)
-//                .orElseThrow(() -> new AccountNotFoundException("To account not found"));
-//
-//        if (from.getBalance() < amount) {
-//            throw new RuntimeException("Insufficient balance");
-//        }
-//
-//        from.setBalance(from.getBalance() - amount);
-//        to.setBalance(to.getBalance() + amount);
-//
-//        repository.save(from);
-//        repository.save(to);
-//
-//        return from.getBalance();
-//    }
-
-
-
 }

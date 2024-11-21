@@ -38,5 +38,4 @@ public class AuthController {
     public ResponseEntity<AuthResponse> refreshToken(@RequestHeader("Authorization") String authorizationHeader) {
         return authService.refreshToken(authorizationHeader.replace("Bearer ", ""));
     }
-
 }

@@ -14,7 +14,10 @@ public class AccountRequest {
     private String password;
 
     private String email;
+
     private BankType bank;
+
     private AccountType type;
+
     private CurrencyType currency;
 }

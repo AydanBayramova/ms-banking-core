@@ -8,10 +8,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class CustomErrorResponse {
-    private int status;
-    private String title;
-    private String detail;
-    private String instance;
-    private LocalDateTime timestamp;
 
+    private int status;
+
+    private String title;
+
+    private String detail;
+
+    private String instance;
+
+    private LocalDateTime timestamp;
 }

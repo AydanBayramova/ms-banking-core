@@ -44,7 +44,7 @@ management:
   metrics:
     export:
       prometheus:
-      # Bu hissəni əlavə etməyə ehtiyac yoxdur, çünki artıq Prometheus avtomatik olaraq aktiv olur.
+
   endpoint:
     prometheus:
       enabled: true

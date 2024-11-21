@@ -15,6 +15,7 @@ import java.util.UUID;
 @Setter
 @Builder
 public class UserEntity {
+
     @Id
     @Indexed(unique = true)
     private UUID id;

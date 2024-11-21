@@ -4,7 +4,6 @@ import az.edu.turing.mscurrency.client.ThirdPartyCurrencyClient;
 import az.edu.turing.mscurrency.model.CurrencyRateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +12,9 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-
 public class CurrencyService {
 
     private final ThirdPartyCurrencyClient currencyClient;
-    private final CacheManager cacheManager;
 
     @Value("${exchange.api.key}")
     private String apiKey;

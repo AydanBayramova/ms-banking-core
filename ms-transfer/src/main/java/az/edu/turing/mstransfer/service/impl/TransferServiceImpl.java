@@ -129,6 +129,4 @@ public class TransferServiceImpl implements TransferService {
         }
         return currencyRate;
     }
-
-
 }

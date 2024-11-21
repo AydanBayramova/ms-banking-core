@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/transfers")
@@ -33,6 +32,4 @@ public class TransferController {
     public ResponseEntity<List<TransferDto>> getTransfersByAccNumber(@PathVariable String accNumber) {
         return transferServiceImpl.getTransfersByAccNumber(accNumber);
     }
-
-
 }

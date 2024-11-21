@@ -94,5 +94,4 @@ public class UserServiceImpl implements UserService {
                 totalElements(page.getTotalElements()).
                 last(page.isLast()).build();
     }
-
 }

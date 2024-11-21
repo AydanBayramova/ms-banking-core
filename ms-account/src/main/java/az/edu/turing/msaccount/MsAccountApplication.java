@@ -13,5 +13,4 @@ public class MsAccountApplication {
     public static void main(String[] args) {
         SpringApplication.run(MsAccountApplication.class, args);
     }
-
 }

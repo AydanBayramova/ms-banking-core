@@ -31,6 +31,5 @@ public class TransferEntity {
 
     @Column(name = "amount")
     private BigDecimal amount;
-
 }
 

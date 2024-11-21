@@ -8,6 +8,7 @@ import az.edu.turing.msidentity.model.dto.response.LoginResponse;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
+
     UserEntity registerAccount(RegisterRequest registerRequest);
 
     ResponseEntity<LoginResponse> loginUser(LoginRequest loginRequest);
@@ -15,5 +16,4 @@ public interface AuthService {
     void logout(String refreshToken);
 
     ResponseEntity<AuthResponse> refreshToken(String refreshToken);
-
 }

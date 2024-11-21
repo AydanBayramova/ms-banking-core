@@ -21,8 +21,4 @@ public interface UserMapper {
     UserResponse entityToResponse(UserEntity userEntity);
 
     List<UserResponse> entityToResponseList(List<UserEntity> userEntity);
-
-
-
-
 }
