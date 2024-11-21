@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(21) // Using Java 21 toolchain
     }
 }
 
@@ -24,27 +24,36 @@ repositories {
 }
 
 dependencies {
+    // Spring Boot Web Starter - Provides essential libraries for building web applications
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Lombok - Reduces boilerplate code by generating getters, setters, etc.
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // Spring Boot Test Starter - Includes dependencies for testing Spring applications
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // JUnit Platform Launcher - Used to launch test suites with JUnit
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // Eureka Server
+    // Spring Cloud Eureka Server - Provides service discovery functionality for microservices
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 
+    // Spring Boot Actuator - Provides production-ready features like monitoring and metrics
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Micrometer Prometheus Registry - Enables Prometheus metrics collection for monitoring
     implementation 'io.micrometer:micrometer-registry-prometheus'
-
 }
-
 
 dependencyManagement {
     imports {
+        // Spring Cloud Dependencies BOM - Manages dependency versions for Spring Cloud
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.4"
     }
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform() // Configures tests to run using the JUnit platform
 }

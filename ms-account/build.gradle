@@ -5,7 +5,7 @@ plugins {
 }
 
 ext {
-    springCloudVersion = "2023.0.3"
+    springCloudVersion = "2023.0.3" // Spring Cloud version for dependency compatibility
 }
 
 group = 'az.edu.turing'
@@ -13,7 +13,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(21) // Using Java 21 toolchain
     }
 }
 
@@ -28,42 +28,43 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    // Core Spring Boot Dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-web' // Web support for REST APIs
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA and Hibernate for database access
+    implementation 'org.springframework.boot:spring-boot-starter-validation' // Bean validation support
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign' // OpenFeign for declarative REST clients
+    implementation 'org.springframework.boot:spring-boot-starter-amqp' // AMQP support for messaging (RabbitMQ)
 
-    // Lombok
+    // Lombok - Reduces boilerplate code with annotations
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // MapStruct
+    // MapStruct - Object Mapping framework
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
-    // Spring Cloud
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:2.2.10.RELEASE'
+    // Spring Cloud Dependencies
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server' // Eureka server for service registry
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:2.2.10.RELEASE' // Circuit breaker for resilience
 
-    //monitoring
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-
+    // Monitoring and Metrics
+    implementation 'org.springframework.boot:spring-boot-starter-actuator' // Actuator for health monitoring
+    implementation 'io.micrometer:micrometer-registry-prometheus' // Prometheus metrics registry
 
     // Database
-    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:postgresql' // PostgreSQL database driver
 
-    // Testing
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Testing Dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' // Test framework for Spring applications
 }
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.4"
+        // Spring Cloud Dependencies BOM
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}" // Ensures version compatibility
     }
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform() // Configures the use of JUnit 5 for testing
 }

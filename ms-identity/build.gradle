@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion = JavaLanguageVersion.of(21) // Java 21 toolchain
 	}
 }
 
@@ -24,41 +24,54 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	testImplementation 'org.springframework.security:spring-security-test'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	// Core Dependencies
+	implementation 'org.springframework.boot:spring-boot-starter-web' // Web support for building REST APIs
+	implementation 'org.springframework.boot:spring-boot-starter-webflux' // Reactive programming with WebFlux
+	implementation 'org.springframework.boot:spring-boot-starter-validation' // Validation support for Spring beans
+	implementation 'org.springframework.boot:spring-boot-starter-security' // Security framework for authentication and authorization
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis' // Redis support for caching and messaging
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb' // MongoDB integration
+
+	// Feign Client
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign' // Declarative REST clients with OpenFeign
+
+	// JWT Dependencies
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5' // JWT API for token management
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5' // JWT implementation
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JWT support for Jackson JSON parser
+
+	// Redis Dependencies
+	implementation 'redis.clients:jedis:4.4.3' // Jedis client for Redis
+	implementation 'org.apache.commons:commons-pool2:2.11.1' // Commons Pool for Jedis connection pooling
+
+	// Monitoring and Metrics
+	implementation 'org.springframework.boot:spring-boot-starter-actuator' // Actuator for application monitoring
+	implementation 'io.micrometer:micrometer-registry-prometheus' // Prometheus metrics integration
+
+	// Eureka Server
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server' // Eureka for service discovery
+
+	// Object Mapping
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final' // MapStruct for mapping Java objects
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
-	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-	implementation 'redis.clients:jedis:4.4.3'
-	implementation 'org.apache.commons:commons-pool2:2.11.1'
+	// Lombok
+	compileOnly 'org.projectlombok:lombok' // Lombok for reducing boilerplate code
+	annotationProcessor 'org.projectlombok:lombok'
 
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'io.micrometer:micrometer-registry-prometheus'
-
+	// Testing Dependencies
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Testing framework for Spring applications
+	testImplementation 'org.springframework.security:spring-security-test' // Security testing support
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit platform launcher for test execution
 }
-
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.4"  // Make sure the version is compatible with your Spring Boot version
+		// Spring Cloud Dependencies BOM
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.4" // Ensures compatibility with Spring Boot 3.x
 	}
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+	useJUnitPlatform() // Configures tests to run with JUnit 5
 }
