@@ -1,6 +1,18 @@
 spring:
   application:
     name: ms-identity
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ismayilzadetural712@gmail.com
+    password: rhlt ljls xgem qghl
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
 eureka:
   client:
     service-url:
