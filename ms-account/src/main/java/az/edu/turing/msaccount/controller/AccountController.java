@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +44,6 @@ public class AccountController {
             return ResponseEntity.ok(e.getAccountResponseWithoutTransactions());
         }
     }
-
 
     @GetMapping(value = "all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<AccountResponse> getAllAccounts() {
@@ -91,5 +91,4 @@ public class AccountController {
         log.info("Get account by account number: {}", accNumber);
         return service.getByNumber(accNumber);
     }
-
 }

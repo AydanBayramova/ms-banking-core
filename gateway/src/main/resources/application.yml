@@ -13,15 +13,15 @@ spring:
           predicates:
             - Path=/api/v1/auth/**
         - id: ms-account
-          uri: lb://ms-account
+          uri: lb://MS-ACCOUNT
           predicates:
-            - Path=/api/account/**
+            - Path=/account/**
         - id: ms-transfer
-          uri: lb://ms-transfer
+          uri: lb://MS-TRANSFER
           predicates:
-            - Path=/api/v1/transfers
-        - id: ms-currency
-          uri: lb://ms-currency
+            - Path=/api/v1/transfers/**
+        - id: currency-service
+          uri: lb://CURRENCY-SERVICE
           predicates:
             - Path=/api/currency/**
       globalcors:
@@ -37,3 +37,15 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+      # Bu hissəni əlavə etməyə ehtiyac yoxdur, çünki artıq Prometheus avtomatik olaraq aktiv olur.
+  endpoint:
+    prometheus:
+      enabled: true

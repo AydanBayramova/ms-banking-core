@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -69,6 +70,7 @@ public class AccountServiceImpl implements AccountService {
         accountEntity.setPassword(passwordEncoder.encode(account.getPassword()));
         accountEntity.setOpeningDate(LocalDateTime.now());
         accountEntity.setAccountId((101 + repository.count()));
+        accountEntity.setCurrency(account.getCurrency());
 
         Account savedAccount = repository.save(accountEntity);
 
@@ -131,6 +133,27 @@ public class AccountServiceImpl implements AccountService {
                 .currency(account.getCurrency().name())
                 .balance(BigDecimal.valueOf(account.getBalance())).build());
     }
+//    @Transactional
+//    public float updateBalances(String fromAccount, String toAccount, float amount) {
+//        Account from = repository.findByNumber(fromAccount)
+//                .orElseThrow(() -> new AccountNotFoundException("From account not found"));
+//
+//        Account to = repository.findByNumber(toAccount)
+//                .orElseThrow(() -> new AccountNotFoundException("To account not found"));
+//
+//        if (from.getBalance() < amount) {
+//            throw new RuntimeException("Insufficient balance");
+//        }
+//
+//        from.setBalance(from.getBalance() - amount);
+//        to.setBalance(to.getBalance() + amount);
+//
+//        repository.save(from);
+//        repository.save(to);
+//
+//        return from.getBalance();
+//    }
+
 
 
 }

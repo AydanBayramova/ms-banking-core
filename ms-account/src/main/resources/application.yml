@@ -8,6 +8,7 @@ spring:
     username: guest
     password: guest
 
+
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -39,8 +40,21 @@ eureka:
     instance-id: ${spring.application.name}:${server.port}
 
 account:
-  queue: account.queue # Queue to listen to
+  queue: account.queue
   exchange: account.exchange
   routingKey: account.routingKey
 server:
   port: 8095
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+      # Bu hissəni əlavə etməyə ehtiyac yoxdur, çünki artıq Prometheus avtomatik olaraq aktiv olur.
+  endpoint:
+    prometheus:
+      enabled: true

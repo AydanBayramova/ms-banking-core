@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 
-@FeignClient(name = "account", url = "http://localhost:8091")
+@FeignClient(name = "ms-account", path = "/account")
 public interface FeignAccountService {
 
-    @PostMapping("/")
+    @PostMapping("/doTrx")
     BigDecimal changeBalance(@RequestParam("source") String source,
                              @RequestParam("destination") String destination,
                              @RequestParam("amount") Float amount

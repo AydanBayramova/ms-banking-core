@@ -28,5 +28,7 @@ public interface AccountService {
      Float changeBalance(String source, String destination, Float amount) throws AccountNotFoundException;
 
      ResponseEntity<AccountResponseForMsTransfer> getByNumber(String number) throws AccountNotFoundException;
+
+    // float updateBalances(String fromAccount, String toAccount, float amount);
 }
 

@@ -11,3 +11,16 @@ eureka:
   instance:
     hostname: eureka-server
     prefer-ip-address: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+      # Bu hissəni əlavə etməyə ehtiyac yoxdur, çünki artıq Prometheus avtomatik olaraq aktiv olur.
+  endpoint:
+    prometheus:
+      enabled: true
