@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(21) // Java 21 toolchain
     }
 }
 
@@ -18,29 +18,34 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web' // REST API
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign' // Feign Client
-    implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8' // Caffeine
-    compileOnly 'org.projectlombok:lombok' // Lombok
+    // Core Dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-web' // Web support for REST API development
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign' // OpenFeign for declarative REST clients
+    implementation 'org.springframework.boot:spring-boot-starter-cache' // Caching support
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8' // Caffeine for high-performance caching
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok' // Compile-time library to reduce boilerplate code
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 
-    // Test asılılıqları
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Spring Cloud Dependencies
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server' // Eureka Server for service discovery
 
-    //monitoring
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
+    // Monitoring and Metrics
+    implementation 'org.springframework.boot:spring-boot-starter-actuator' // Actuator for application monitoring
+    implementation 'io.micrometer:micrometer-registry-prometheus' // Prometheus registry for metrics monitoring
 
+    // Testing Dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' // Testing framework for Spring Boot applications
 }
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.3" // Spring Cloud versiyası
+        // Spring Cloud BOM
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.3" // Version alignment for Spring Cloud dependencies
     }
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform() // Configures JUnit 5 as the test platform
 }

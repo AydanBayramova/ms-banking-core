@@ -5,7 +5,7 @@ plugins {
 }
 
 ext {
-    springCloudVersion = "2023.0.3"
+    springCloudVersion = "2023.0.3" // Spring Cloud version for dependency compatibility
 }
 
 group = 'az.edu.turing'
@@ -13,7 +13,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(21) // Java 21 toolchain
     }
 }
 
@@ -28,43 +28,47 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    compileOnly 'org.projectlombok:lombok'
+    // Core Dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-web' // Web development for REST APIs
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA and Hibernate for database access
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign' // Declarative REST clients with OpenFeign
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok' // Reduce boilerplate code
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    runtimeOnly 'org.postgresql:postgresql'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
-    implementation 'org.hibernate.validator:hibernate-validator'
 
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    // Validation
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2' // Jakarta validation API
+    implementation 'org.hibernate.validator:hibernate-validator' // Hibernate validator for Jakarta validation
 
-
-    implementation 'org.springframework.boot:spring-boot-starter-amqp'
-
-
-    // MapStruct processor dependency
-
+    // MapStruct
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final' // Object mapping library
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
+    // AMQP (RabbitMQ)
+    implementation 'org.springframework.boot:spring-boot-starter-amqp' // AMQP support for RabbitMQ
+
+    // Database
+    runtimeOnly 'org.postgresql:postgresql' // PostgreSQL database driver
+
     // Eureka Server
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server' // Service discovery with Eureka
 
-    //monitoring
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
+    // Monitoring and Metrics
+    implementation 'org.springframework.boot:spring-boot-starter-actuator' // Actuator for application monitoring
+    implementation 'io.micrometer:micrometer-registry-prometheus' // Prometheus registry for monitoring
 
-
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' // Testing framework for Spring Boot
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit platform launcher for test execution
 }
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion" // Spring Cloud BOM for dependency version alignment
     }
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform() // Configure tests to use JUnit 5
 }
