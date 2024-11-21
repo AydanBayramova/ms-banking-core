@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "currency",url = "http://localhost:8087")
+@FeignClient(name = "currency", path = "/api/currency")
 public interface FeignCurrencyService {
 
-    @GetMapping("/api/currency/rate")
+    @GetMapping("/rate")
     ResponseEntity<CurrencyRateDto> getCurrencyRate(@RequestParam String base,@RequestParam String target);
 }

@@ -35,3 +35,15 @@ transfer:
   routingKey: transfer.routingKey
 server:
   port: 8086
+management:
+  endpoints:
+    web:
+      exposure:
+        include:  prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+      # Bu hissəni əlavə etməyə ehtiyac yoxdur, çünki artıq Prometheus avtomatik olaraq aktiv olur.
+  endpoint:
+    prometheus:
+      enabled: true

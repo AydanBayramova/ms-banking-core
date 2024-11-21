@@ -21,11 +21,28 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include:  prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+      # Bu hissəni əlavə etməyə ehtiyac yoxdur, çünki artıq Prometheus avtomatik olaraq aktiv olur.
+  endpoint:
+    prometheus:
+      enabled: true
+
 jwt:
   secret: 9rvuHvQY8fPmkQoVdPo7OQg4NYrmcJkjsYYBZj5gL0A=
   access-token-expiration: 900000
   refresh-token-expiration: 604800000
 
+node-exporter:
+  image: prom/node-exporter:latest
+  container_name: node-exporter
+  ports:
+    - "9100:9100"
+  networks:
+    - app-network
+
 server:
   port: 8093
+

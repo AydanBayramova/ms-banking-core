@@ -24,12 +24,12 @@ public class TransferController {
         return ResponseEntity.ok(amount);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("user/{userId}")
     public ResponseEntity<List<TransferDto>> getTransfers(@PathVariable String userId) {
         return transferServiceImpl.getTranfersByUserId(userId);
     }
 
-    @GetMapping("/{accNumber}")
+    @GetMapping("account/{accNumber}")
     public ResponseEntity<List<TransferDto>> getTransfersByAccNumber(@PathVariable String accNumber) {
         return transferServiceImpl.getTransfersByAccNumber(accNumber);
     }

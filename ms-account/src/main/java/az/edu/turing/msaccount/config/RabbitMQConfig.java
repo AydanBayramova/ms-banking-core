@@ -1,28 +1,36 @@
 package az.edu.turing.msaccount.config;
 
+import lombok.Data;
 import org.springframework.amqp.core.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@Data
 public class RabbitMQConfig {
 
-    public static final String QUEUE_NAME = "transfer.queue";
-    public static final String EXCHANGE_NAME = "transfer.exchange";
-    public static final String ROUTING_KEY = "transfer.routingKey";
+    @Value("${account.queue}")
+    private String queueName;
+
+    @Value("${account.exchange}")
+    private String exchangeName;
+
+    @Value("${account.routingKey}")
+    private String routingKey;
 
     @Bean
     public Queue queue() {
-        return new Queue(QUEUE_NAME, true);
+        return new Queue(queueName, true); // Durable = true
     }
 
     @Bean
     public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE_NAME);
+        return new TopicExchange(exchangeName);
     }
 
     @Bean
     public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
 }

@@ -36,3 +36,15 @@ eureka:
     hostname: ms-currency
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
+management:
+  endpoints:
+    web:
+      exposure:
+        include:  prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+      # Bu hissəni əlavə etməyə ehtiyac yoxdur, çünki artıq Prometheus avtomatik olaraq aktiv olur.
+  endpoint:
+    prometheus:
+      enabled: true

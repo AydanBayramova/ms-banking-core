@@ -1,6 +1,7 @@
     package az.edu.turing.msaccount.model.response;
 
 
+
     import az.edu.turing.msaccount.client.TransferDto;
     import az.edu.turing.msaccount.enums.AccountType;
     import az.edu.turing.msaccount.enums.BankType;

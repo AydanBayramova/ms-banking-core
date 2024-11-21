@@ -52,6 +52,11 @@ dependencies {
     // Eureka Server
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 
+    //monitoring
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+
 }
 
 dependencyManagement {
