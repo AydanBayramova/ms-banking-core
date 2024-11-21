@@ -1,6 +1,6 @@
 package az.edu.turing.msidentity.entity;
 
-import jakarta.persistence.OneToOne;
+
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;

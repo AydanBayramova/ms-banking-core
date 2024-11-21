@@ -59,7 +59,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
         UserEntity user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Provide valid email"));
 
-        ForgotPassword fp = forgotPasswordRepository.findByOtpAndUser(otp, user)
+        ForgotPassword fp = forgotPasswordRepository.findByOtpAndUserId(otp, user.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Provide valid OTP"));
 
         if (fp.getExpirationTime().before(Date.from(Instant.now()))) {

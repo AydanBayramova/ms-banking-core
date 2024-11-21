@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface ForgotPasswordRepository extends JpaRepository<ForgotPassword, Long> {
 
-    Optional<ForgotPassword> findByOtpAndUser(Integer otp, UserEntity user);
+    Optional<ForgotPassword> findByOtpAndUserId(Integer otp, UUID userId);
 }
