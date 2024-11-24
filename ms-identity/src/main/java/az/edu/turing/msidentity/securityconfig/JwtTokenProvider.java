@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Date;
+import java.util.*;
 
 @Component
 public class JwtTokenProvider {
@@ -28,8 +28,9 @@ public class JwtTokenProvider {
         this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds;
     }
 
-    public String createAccessToken(String username) {
+    public String createAccessToken(String username, Set<String> roles) {
         Claims claims = Jwts.claims().setSubject(username);
+        claims.put("roles", roles);
         Date now = new Date();
         Date validity = new Date(now.getTime() + accessTokenValidityInMilliseconds);
 
@@ -41,8 +42,10 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String createRefreshToken(String username) {
+
+    public String createRefreshToken(String username, Set<String> roles) {
         Claims claims = Jwts.claims().setSubject(username);
+        claims.put("roles", roles);
         Date now = new Date();
         Date validity = new Date(now.getTime() + refreshTokenValidityInMilliseconds);
 
@@ -85,11 +88,23 @@ public class JwtTokenProvider {
 
         String username = getUsername(refreshToken);
 
-        String newAccessToken = createAccessToken(username);
+        Set<String> roles = getRoles(refreshToken);
 
-        String newRefreshToken = createRefreshToken(username);
+        String newAccessToken = createAccessToken(username, roles);
+
+        String newRefreshToken = createRefreshToken(username, roles);
 
         return new AuthResponse("Token refreshed", newAccessToken, newRefreshToken);
+    }
+
+    public Set<String> getRoles(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return new HashSet<>((List<String>) claims.get("roles", ArrayList.class));
     }
 
     public String getUsername(String token) {

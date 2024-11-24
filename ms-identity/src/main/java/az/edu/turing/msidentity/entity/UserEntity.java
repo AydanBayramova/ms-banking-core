@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Document(value = "user")
@@ -29,6 +31,8 @@ public class UserEntity {
     private String email;
 
     private String password;
+
+    private Set<String> roles = new HashSet<>();
 
     @Field("first_name")
     private String firstName;
