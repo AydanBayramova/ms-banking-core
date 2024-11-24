@@ -74,8 +74,8 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok' // Lombok for reducing boilerplate code
 	annotationProcessor 'org.projectlombok:lombok'
 
-	//Rate Limiting
-	implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:8.2.0'
+	// Bucket4j for rate limiting
+	implementation group: 'com.github.vladimir-bukhtoyarov', name: 'bucket4j-core', version: '7.6.0'
 
 
 	// Testing Dependencies

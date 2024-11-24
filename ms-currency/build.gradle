@@ -15,8 +15,8 @@ java {
 
 repositories {
     mavenCentral()
-}
 
+}
 dependencies {
     // Core Dependencies
     implementation 'org.springframework.boot:spring-boot-starter-web' // Web support for REST API development
