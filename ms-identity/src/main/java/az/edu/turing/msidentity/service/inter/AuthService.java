@@ -1,6 +1,5 @@
 package az.edu.turing.msidentity.service.inter;
 
-import az.edu.turing.msidentity.entity.UserEntity;
 import az.edu.turing.msidentity.model.dto.request.LoginRequest;
 import az.edu.turing.msidentity.model.dto.request.RegisterRequest;
 import az.edu.turing.msidentity.model.dto.response.AuthResponse;
