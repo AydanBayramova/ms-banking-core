@@ -4,8 +4,10 @@ import az.edu.turing.msidentity.model.dto.request.LoginRequest;
 import az.edu.turing.msidentity.model.dto.response.AuthResponse;
 import az.edu.turing.msidentity.model.dto.response.LoginResponse;
 import az.edu.turing.msidentity.model.dto.response.RegisterResponse;
+import az.edu.turing.msidentity.service.impl.LoginAttemptService;
 import az.edu.turing.msidentity.service.inter.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import az.edu.turing.msidentity.model.dto.request.RegisterRequest;
@@ -16,6 +18,7 @@ import az.edu.turing.msidentity.model.dto.request.RegisterRequest;
 public class AuthController {
 
     private final AuthService authService;
+    private final LoginAttemptService loginAttemptService;
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> registerUser(@RequestBody RegisterRequest registerRequest) {
@@ -23,8 +26,22 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
-        return authService.loginUser(loginRequest);
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+        String username = loginRequest.getUsername();
+
+        if (loginAttemptService.isBlocked(username)) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body("There many times trying to login, please try again after 20");
+        }
+        try {
+            ResponseEntity<LoginResponse> response = authService.loginUser(loginRequest);
+            loginAttemptService.loginSucceeded(username);
+            return response;
+        } catch (Exception e) {
+
+            loginAttemptService.loginFailed(username);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect username or password");
+        }
     }
 
     @DeleteMapping("/logout")

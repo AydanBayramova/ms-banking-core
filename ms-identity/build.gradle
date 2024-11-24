@@ -74,6 +74,10 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok' // Lombok for reducing boilerplate code
 	annotationProcessor 'org.projectlombok:lombok'
 
+	//Rate Limiting
+	implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:8.2.0'
+
+
 	// Testing Dependencies
 	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Testing framework for Spring applications
 	testImplementation 'org.springframework.security:spring-security-test' // Security testing support

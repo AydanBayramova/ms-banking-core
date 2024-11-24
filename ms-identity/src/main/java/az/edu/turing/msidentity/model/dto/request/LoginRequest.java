@@ -1,12 +1,16 @@
 package az.edu.turing.msidentity.model.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-public record LoginRequest(
-        @NotBlank
-        String username,
+@Data
+@RequiredArgsConstructor
+public class LoginRequest {
 
-        @NotBlank
-        String password
-){
+    @NotBlank
+    String username;
+
+    @NotBlank
+    String password;
 }
