@@ -10,9 +10,9 @@ spring:
 
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/account_db
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: mysecretpassword
+    password: Aba32835
     driver-class-name: org.postgresql.Driver
 
   servlet:

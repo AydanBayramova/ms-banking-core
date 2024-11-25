@@ -39,29 +39,29 @@ public class AuthServiceImpl implements AuthService {
         user.setId(UUID.randomUUID());
         user.setRoles(Set.of("USER"));
         user.setEnabled(true);
-        UserEntity userEntity = userRepository.save(user);
+          UserEntity userEntity = userRepository.save(user);
         new RegisterResponse();
         return ResponseEntity.ok(RegisterResponse.builder().id(userEntity.getId()).username(userEntity.getUsername()).message("Registered successfully").build());
     }
 
     @Override
     public ResponseEntity<LoginResponse> loginUser(LoginRequest loginRequest) {
-        UserEntity user = userRepository.findByUsername(loginRequest.username()).orElseThrow(() -> new RuntimeException("Username or password is incorrect!"));
+        UserEntity user = userRepository.findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new RuntimeException("Username or password is incorrect!"));
 
-        if (!passwordEncoderUtil.matches(loginRequest.password(), user.getPassword())) {
+        if (!passwordEncoderUtil.matches(loginRequest.getPassword(), user.getPassword())) {
             return ResponseEntity.badRequest().body(new LoginResponse("Invalid credentials"));
         }
 
-        String token = jwtTokenProvider.createAccessToken(loginRequest.username(), user.getRoles());
-        String refreshToken = jwtTokenProvider.createRefreshToken(loginRequest.username(), user.getRoles());
+        String token = jwtTokenProvider.createAccessToken(loginRequest.getUsername(), user.getRoles());
+        String refreshToken = jwtTokenProvider.createRefreshToken(loginRequest.getUsername(), user.getRoles());
 
-        String redisKey = "refreshToken:" + loginRequest.username();
+        String redisKey = "refreshToken:" + loginRequest.getUsername();
         redisTemplate.opsForValue().set(redisKey, refreshToken);
-
 
         LoginResponse loginResponse = LoginResponse.builder()
                 .message("Login successful")
-                .username(loginRequest.username())
+                .username(loginRequest.getUsername())
                 .accessToken(token)
                 .refreshToken(refreshToken)
                 .build();

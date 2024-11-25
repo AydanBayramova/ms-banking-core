@@ -7,22 +7,13 @@ spring:
       uri: mongodb://admin:password@localhost:27017/identity_db?authSource=admin
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/passforgot_db
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: mysecretpassword
+    password: Aba32835
     driver-class-name: org.postgresql.Driver
 
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ismayilzadetural712@gmail.com
-    password: rhlt ljls xgem qghl
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls.enable: true
+
   jpa:
     hibernate:
       ddl-auto: create

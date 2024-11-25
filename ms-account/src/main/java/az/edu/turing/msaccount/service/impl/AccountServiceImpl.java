@@ -66,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
         accountEntity.setNumber(Generator.randomNumberGenerator());
         accountEntity.setActive(AccountStatus.ACTIVATED);
         accountEntity.setUserId(userId);
-        accountEntity.setBalance(2000F);
+        accountEntity.setBalance(accountEntity.getBalance());
         accountEntity.setPassword(passwordEncoder.encode(account.getPassword()));
         accountEntity.setOpeningDate(LocalDateTime.now());
         accountEntity.setAccountId((101 + repository.count()));

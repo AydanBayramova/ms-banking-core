@@ -16,7 +16,7 @@ public interface AccountMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromRequest(AccountRequest registerRequest, @MappingTarget Account accountEntity);
 
-    // MapStruct avtomatik olaraq eyni adlı sahələri mapper edəcək
+
     Account toAccountEntity(AccountRequest accountRequest);
 
     AccountResponse toAccountDto(Account accountEntity);
