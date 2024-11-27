@@ -27,7 +27,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        String username = loginRequest.getUsername();
+        String username = loginRequest.username();
 
         if (loginAttemptService.isBlocked(username)) {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
