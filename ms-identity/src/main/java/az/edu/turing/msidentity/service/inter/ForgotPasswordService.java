@@ -8,4 +8,5 @@ public interface ForgotPasswordService {
     String verifyMail(String email);
     String verifyOtp(Integer otp, String email);
     String changePassword(ChangePassword changePassword, String email);
+    void cleanExpiredOtps();
 }

@@ -31,9 +31,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security' // Security framework for authentication and authorization
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis' // Redis support for caching and messaging
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb' // MongoDB integration
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA for database interaction
-	implementation 'org.springframework.boot:spring-boot-starter-mail' // Email support
-	implementation 'org.springframework.boot:spring-boot-starter-actuator' // Actuator for application monitoring
 
 	// Feign Client
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign' // Declarative REST clients with OpenFeign
@@ -48,6 +45,7 @@ dependencies {
 	implementation 'org.apache.commons:commons-pool2:2.11.1' // Commons Pool for Jedis connection pooling
 
 	// Monitoring and Metrics
+	implementation 'org.springframework.boot:spring-boot-starter-actuator' // Actuator for application monitoring
 	implementation 'io.micrometer:micrometer-registry-prometheus' // Prometheus metrics integration
 
 	// Eureka Server
@@ -55,17 +53,28 @@ dependencies {
 
 	// Object Mapping
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final' // MapStruct for mapping Java objects
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.hibernate:hibernate-core:6.2.12.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	testImplementation 'org.springframework.security:spring-security-test'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	runtimeOnly 'org.postgresql:postgresql'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
 	// Lombok
 	compileOnly 'org.projectlombok:lombok' // Lombok for reducing boilerplate code
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// Bucket4j for rate limiting
-	implementation group: 'com.github.vladimir-bukhtoyarov', name: 'bucket4j-core', version: '7.6.0'
 
-	// Database
-	runtimeOnly 'org.postgresql:postgresql' // PostgreSQL driver
 
 	// Testing Dependencies
 	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Testing framework for Spring applications

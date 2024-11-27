@@ -6,10 +6,12 @@ import az.edu.turing.msidentity.model.MailBody;
 import az.edu.turing.msidentity.entity.UserEntity;
 import az.edu.turing.msidentity.repository.ForgotPasswordRepository;
 import az.edu.turing.msidentity.repository.UserRepository;
+import az.edu.turing.msidentity.repository.UserRepositoryCustom;
 import az.edu.turing.msidentity.service.inter.EmailService;
 import az.edu.turing.msidentity.service.inter.ForgotPasswordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     private final EmailService emailService;
     private final ForgotPasswordRepository forgotPasswordRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final UserRepositoryCustom userRepositoryCustom;
 
     @Override
     public String verifyMail(String email) {
@@ -44,7 +47,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
         ForgotPassword fp = ForgotPassword.builder()
                 .otp(otp)
-                .expirationTime(new Date(System.currentTimeMillis() + 70 * 1000))
+                .expirationTime(new Date(System.currentTimeMillis() + 60 *5 * 1000))
                 .userId(user.getId())
                 .build();
 
@@ -72,18 +75,28 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
     @Override
     public String changePassword(ChangePassword changePassword, String email) {
+
         if (!Objects.equals(changePassword.password(), changePassword.repeatedPassword())) {
-            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Passwords do not match");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Passwords do not match");
+
         }
 
         String encodedPassword = passwordEncoder.encode(changePassword.password());
-        userRepository.updatePassword(email, encodedPassword);
+        userRepositoryCustom.updatePasswordByEmail(email, encodedPassword);
 
         return "Password changed successfully.";
+    }
+
+    @Override
+    @Scheduled(fixedRate = 300000)
+    public void cleanExpiredOtps() {
+        forgotPasswordRepository.deleteExpiredOtps();
     }
 
     private Integer otpGenerator() {
         Random random = new Random();
         return random.nextInt(100_000, 999_999);
     }
+
+
 }

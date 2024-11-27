@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
         UserEntity user = userMapper.requestToEntity(registerRequest);
         user.setPassword(passwordEncoderUtil.encode(registerRequest.password()));
         user.setId(UUID.randomUUID());
-        user.setRoles(Set.of("USER"));
+        user.setRoles(Set.of("ADMIN"));
         user.setEnabled(true);
           UserEntity userEntity = userRepository.save(user);
         new RegisterResponse();
@@ -46,22 +46,22 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<LoginResponse> loginUser(LoginRequest loginRequest) {
-        UserEntity user = userRepository.findByUsername(loginRequest.getUsername())
+        UserEntity user = userRepository.findByUsername(loginRequest.username())
                 .orElseThrow(() -> new RuntimeException("Username or password is incorrect!"));
 
-        if (!passwordEncoderUtil.matches(loginRequest.getPassword(), user.getPassword())) {
+        if (!passwordEncoderUtil.matches(loginRequest.password(), user.getPassword())) {
             return ResponseEntity.badRequest().body(new LoginResponse("Invalid credentials"));
         }
 
-        String token = jwtTokenProvider.createAccessToken(loginRequest.getUsername(), user.getRoles());
-        String refreshToken = jwtTokenProvider.createRefreshToken(loginRequest.getUsername(), user.getRoles());
+        String token = jwtTokenProvider.createAccessToken(loginRequest.username(), user.getRoles());
+        String refreshToken = jwtTokenProvider.createRefreshToken(loginRequest.username(), user.getRoles());
 
-        String redisKey = "refreshToken:" + loginRequest.getUsername();
+        String redisKey = "refreshToken:" + loginRequest.username();
         redisTemplate.opsForValue().set(redisKey, refreshToken);
 
         LoginResponse loginResponse = LoginResponse.builder()
                 .message("Login successful")
-                .username(loginRequest.getUsername())
+                .username(loginRequest.username())
                 .accessToken(token)
                 .refreshToken(refreshToken)
                 .build();
