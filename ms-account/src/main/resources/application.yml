@@ -39,6 +39,10 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
 
+notification:
+  queue: notification-queue
+  routingKey: notification-key
+
 account:
   queue: account.queue
   exchange: account.exchange
