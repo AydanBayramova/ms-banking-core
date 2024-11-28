@@ -21,7 +21,7 @@ public class RabbitMQTestController {
 
     @PostMapping("/send")
     public String sendTestMessage(@RequestBody String message) {
-        rabbitTemplate.convertAndSend(rabbitMQConfig.getExchangeName(), rabbitMQConfig.getRoutingKey(), message);
+        rabbitTemplate.convertAndSend(rabbitMQConfig.getAccountExchange(), rabbitMQConfig.getAccountRoutingKey(), message);
         return "Message sent to RabbitMQ: " + message;
     }
 }

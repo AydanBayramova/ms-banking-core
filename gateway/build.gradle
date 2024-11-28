@@ -31,13 +31,19 @@ dependencies {
 
     // Monitoring and Metrics
     implementation 'org.springframework.boot:spring-boot-starter-actuator' // Actuator for application monitoring
-    implementation 'io.micrometer:micrometer-registry-prometheus' // Prometheus integration for metrics
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-security'// Prometheus integration for metrics
 
     // Testing Dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // Testing Spring Boot applications
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0' // JUnit 5 for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'org.springframework.security:spring-security-test'// JUnit 5 for testing
 
     // Optional: Add any additional libraries here
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 }
 
 dependencyManagement {

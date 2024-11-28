@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
         user.setId(UUID.randomUUID());
         user.setRoles(Set.of("USER"));
         user.setEnabled(true);
-          UserEntity userEntity = userRepository.save(user);
+        UserEntity userEntity = userRepository.save(user);
         new RegisterResponse();
         return ResponseEntity.ok(RegisterResponse.builder().id(userEntity.getId()).username(userEntity.getUsername()).message("Registered successfully").build());
     }
@@ -58,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
 
         String redisKey = "refreshToken:" + loginRequest.getUsername();
         redisTemplate.opsForValue().set(redisKey, refreshToken);
-
+        System.out.println(redisTemplate.opsForValue().get(redisKey));
         LoginResponse loginResponse = LoginResponse.builder()
                 .message("Login successful")
                 .username(loginRequest.getUsername())

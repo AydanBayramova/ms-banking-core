@@ -25,4 +25,3 @@ public class ForgotPassword {
 
     private UUID userId;
 }
-

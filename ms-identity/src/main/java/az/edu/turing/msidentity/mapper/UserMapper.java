@@ -5,6 +5,7 @@ import az.edu.turing.msidentity.model.dto.request.UserRequest;
 import az.edu.turing.msidentity.model.dto.response.UserResponse;
 import az.edu.turing.msidentity.entity.UserEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;

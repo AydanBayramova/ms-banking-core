@@ -17,8 +17,10 @@ public class RedisConfig {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName("localhost");
+        redisStandaloneConfiguration.setPort(6379);
 
-        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+        GenericObjectPoolConfig<String> poolConfig = new GenericObjectPoolConfig<>();
         poolConfig.setMaxTotal(10);
         poolConfig.setMaxIdle(5);
         poolConfig.setMinIdle(2);

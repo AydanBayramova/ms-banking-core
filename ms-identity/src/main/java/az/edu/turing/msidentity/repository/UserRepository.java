@@ -22,6 +22,6 @@ public interface UserRepository extends MongoRepository<UserEntity, UUID> {
 
     @Transactional
     @Modifying
-    @Query("update User u set u.password= ?2 where u.email=?1")
+    @Query("update UserEntity u set u.password= ?2 where u.email=?1")
     void updatePassword(String email, String newPassword);
 }

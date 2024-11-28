@@ -68,9 +68,9 @@ public class AccountController {
         return ResponseEntity.ok(updatedAccount.getBody());
     }
 
-    @DeleteMapping
-    public ResponseEntity<HttpStatus> deleteAccount(Long id) throws AccountNotFoundException {
-        service.deleteAccount(id);
+    @DeleteMapping("{accId}")
+    public ResponseEntity<HttpStatus> deleteAccount(@PathVariable Long accId) throws AccountNotFoundException {
+        service.deleteAccount(accId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -89,5 +89,11 @@ public class AccountController {
     public ResponseEntity<AccountResponseForMsTransfer> getAccountByNumber(@PathVariable(name = "accNumber") String accNumber) throws AccountNotFoundException {
         log.info("Get account by account number: {}", accNumber);
         return service.getByNumber(accNumber);
+    }
+
+    @DeleteMapping("all/{userId}")
+    public ResponseEntity<HttpStatus> deleteAllAccounts(@PathVariable(name = "userId") String userId) {
+        service.deleteAllByUserId(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

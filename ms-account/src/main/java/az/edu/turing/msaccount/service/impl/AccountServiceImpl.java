@@ -7,6 +7,7 @@ import az.edu.turing.msaccount.enums.AccountStatus;
 import az.edu.turing.msaccount.event.NotificationEvent;
 import az.edu.turing.msaccount.exception.AccountNotFoundException;
 import az.edu.turing.msaccount.exception.CanNotBeBlankException;
+import az.edu.turing.msaccount.exception.IdCannotBeNullException;
 import az.edu.turing.msaccount.exception.TransactionFetchException;
 import az.edu.turing.msaccount.mapper.AccountMapper;
 import az.edu.turing.msaccount.model.request.AccountRequest;
@@ -90,24 +91,27 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseEntity<AccountResponse> updateAccount(Long accountId, AccountRequest registerRequest) throws AccountNotFoundException {
-        Account accountEntity = repository.findById(accountId)
-                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        if (accountId != null) {
+            Account accountEntity = repository.findById(accountId)
+                    .orElseThrow(() -> new AccountNotFoundException("Account not found"));
 
-        accountMapper.updateEntityFromRequest(registerRequest, accountEntity);
+            accountMapper.updateEntityFromRequest(registerRequest, accountEntity);
 
-        accountEntity.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+            accountEntity.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
-        Account updatedAccount = repository.save(accountEntity);
+            Account updatedAccount = repository.save(accountEntity);
 
-        NotificationEvent event = new NotificationEvent(
-                "ACCOUNT_UPDATED",
-                accountEntity.getEmail(),
-                "Your account details bas been successfully updated."
-        );
-        rabbitTemplate.convertAndSend("account-exchange", "notification-key", event);
+            NotificationEvent event = new NotificationEvent(
+                    "ACCOUNT_UPDATED",
+                    accountEntity.getEmail(),
+                    "Your account details bas been successfully updated."
+            );
+            rabbitTemplate.convertAndSend("account-exchange", "notification-key", event);
 
-        AccountResponse response = accountMapper.toAccountDto(updatedAccount);
-        return ResponseEntity.ok(response);
+            AccountResponse response = accountMapper.toAccountDto(updatedAccount);
+            return ResponseEntity.ok(response);
+        }
+        throw new IdCannotBeNullException("Id cannot be null");
     }
 
     @Override
@@ -171,5 +175,13 @@ public class AccountServiceImpl implements AccountService {
                 .accountNumber(account.getNumber())
                 .currency(account.getCurrency().name())
                 .balance(BigDecimal.valueOf(account.getBalance())).build());
+    }
+
+    @Override
+    public void deleteAllByUserId(String userId) {
+        if (userId != null) {
+            repository.deleteAllByUserId(UUID.fromString(userId)).orElseThrow(() -> new AccountNotFoundException("No account for this user"));
+        }
+        throw new IdCannotBeNullException("Id cannot be null");
     }
 }

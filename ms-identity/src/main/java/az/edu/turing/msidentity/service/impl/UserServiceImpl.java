@@ -1,5 +1,6 @@
 package az.edu.turing.msidentity.service.impl;
 
+import az.edu.turing.msidentity.client.AccountClient;
 import az.edu.turing.msidentity.exception.BaseException;
 import az.edu.turing.msidentity.model.dto.request.UserRequest;
 import az.edu.turing.msidentity.model.dto.response.PageResponse;
@@ -15,16 +16,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
-import static az.edu.turing.msidentity.model.enums.ErrorMessages.USER_NOT_FOUND;
-import static az.edu.turing.msidentity.model.enums.ErrorMessages.USER_REQUEST_CANNOT_BE_NULL;
+import static az.edu.turing.msidentity.model.enums.ErrorMessages.*;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final AccountClient accountClient;
     UserMapper mapper = UserMapper.INSTANCE;
 
     @Override
@@ -68,9 +70,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<Void> deleteUser(String id) {
-        UUID userId = UUID.fromString(id);
-        userRepository.deleteById(userId);
-        return ResponseEntity.noContent().build();
+        if (id != null) {
+            UUID userId = UUID.fromString(id);
+            userRepository.deleteById(userId);
+            if (Objects.requireNonNull(accountClient.deleteAllAccounts(id).getBody()).is2xxSuccessful()) {
+                return ResponseEntity.noContent().build();
+            }
+            throw BaseException.of(USER_NOT_FOUND);
+        }
+        throw BaseException.of(INVALID_USER_ID);
     }
 
     private UserEntity toUserEntity(UserRequest userRequest) {

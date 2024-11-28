@@ -22,26 +22,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> registerUser(@RequestBody RegisterRequest registerRequest) {
+        System.out.println(registerRequest.username());
         return authService.registerAccount(registerRequest);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        String username = loginRequest.getUsername();
-
-        if (loginAttemptService.isBlocked(username)) {
-            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
-                    .body("There many times trying to login, please try again after 20");
-        }
-        try {
             ResponseEntity<LoginResponse> response = authService.loginUser(loginRequest);
-            loginAttemptService.loginSucceeded(username);
             return response;
-        } catch (Exception e) {
-
-            loginAttemptService.loginFailed(username);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect username or password");
-        }
     }
 
     @DeleteMapping("/logout")
