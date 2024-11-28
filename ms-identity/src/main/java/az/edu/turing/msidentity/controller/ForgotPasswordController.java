@@ -27,8 +27,11 @@ public class ForgotPasswordController {
 
     @PostMapping("/changePassword/{email}")
     public ResponseEntity<String> changePassword(@RequestBody ChangePassword changePassword,
+                                                 @RequestParam Integer otp,
                                                  @PathVariable String email) {
+        forgotPasswordService.verifyOtp(otp, email);
         String response = forgotPasswordService.changePassword(changePassword, email);
         return ResponseEntity.ok(response);
     }
+
 }

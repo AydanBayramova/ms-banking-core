@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.Date;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "forgot_password" )
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
