@@ -10,7 +10,6 @@ import az.edu.turing.msaccount.exception.AccountNotFoundException;
 import az.edu.turing.msaccount.model.request.AccountRequest;
 import az.edu.turing.msaccount.model.response.AccountResponse;
 import az.edu.turing.msaccount.model.response.AccountResponseForMsTransfer;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 

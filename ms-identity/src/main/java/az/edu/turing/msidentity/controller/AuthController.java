@@ -7,7 +7,6 @@ import az.edu.turing.msidentity.model.dto.response.RegisterResponse;
 import az.edu.turing.msidentity.service.impl.LoginAttemptService;
 import az.edu.turing.msidentity.service.inter.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import az.edu.turing.msidentity.model.dto.request.RegisterRequest;
