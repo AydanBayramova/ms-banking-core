@@ -24,16 +24,19 @@ repositories {
 }
 
 dependencies {
+
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
     // Core Dependencies
-    implementation 'org.springframework.boot:spring-boot-starter-webflux' // Reactive programming support
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway' // API Gateway for routing and filtering
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client' // Eureka client for service discovery
 
     // Monitoring and Metrics
     implementation 'org.springframework.boot:spring-boot-starter-actuator' // Actuator for application monitoring
     implementation 'io.micrometer:micrometer-registry-prometheus'
-    implementation 'org.projectlombok:lombok'
-    implementation 'org.springframework.boot:spring-boot-starter-security'// Prometheus integration for metrics
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // Testing Dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // Testing Spring Boot applications
